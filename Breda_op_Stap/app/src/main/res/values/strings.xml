@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Breda_op_Stap</string>
+    <string name="title_activity_google_maps">Map</string>
 </resources>
