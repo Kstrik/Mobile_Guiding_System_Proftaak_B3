@@ -11,11 +11,11 @@ public class Waypoint
     LatLng location;
     String description;
     List<MediaStore.Images> images;
-    Boolean isVisited;
-    Boolean isFavorite;
-    Boolean isHidden;
+    boolean isVisited;
+    boolean isFavorite;
+    boolean isHidden;
 
-    public Waypoint(LatLng position, String desc, List<MediaStore.Images> images, Boolean isVisited, Boolean isFavorite, Boolean isHidden )
+    public Waypoint(LatLng position, String desc, List<MediaStore.Images> images, boolean isVisited, boolean isFavorite, boolean isHidden )
     {
         this.location = position;
         this.description = desc;
@@ -25,51 +25,51 @@ public class Waypoint
         this.isHidden = isHidden;
     }
 
-    public Boolean getFavorite() {
-        return isFavorite;
+    public boolean getFavorite() {
+        return this.isFavorite;
     }
 
-    public Boolean getHidden() {
-        return isHidden;
+    public boolean getHidden() {
+        return this.isHidden;
     }
 
-    public Boolean getVisited() {
-        return isVisited;
+    public boolean getVisited() {
+        return this.isVisited;
     }
 
     public LatLng getLocation() {
-        return location;
+        return this.location;
     }
 
     public List<MediaStore.Images> getImages() {
-        return Images;
+        return this.images;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setFavorite(Boolean favorite) {
-        isFavorite = favorite;
+    public void setFavorite(boolean favorite) {
+        this.isFavorite = favorite;
     }
 
-    public void setHidden(Boolean hidden) {
-        isHidden = hidden;
+    public void setHidden(boolean hidden) {
+        this.isHidden = hidden;
     }
 
-//    public void setImages(List<MediaStore.Images> images) {
-//        List<MediaStore.Images> = images;
-//    }
+    public void setImages(List<MediaStore.Images> images) {
+        this.images = images;
+    }
 
     public void setLocation(LatLng location) {
         this.location = location;
     }
 
-    public void setVisited(Boolean visited) {
+    public void setVisited(boolean visited) {
         isVisited = visited;
     }
 }
