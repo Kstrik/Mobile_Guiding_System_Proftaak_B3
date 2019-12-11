@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.example.breda_op_stap.data.Waypoint;
-import
 
 import java.util.ArrayList;
 
