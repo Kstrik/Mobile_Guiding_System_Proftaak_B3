@@ -27,15 +27,15 @@ public class Waypoint
         this.isHidden = isHidden;
     }
 
-    public boolean getFavorite() {
+    public boolean isFavorite() {
         return this.isFavorite;
     }
 
-    public boolean getHidden() {
+    public boolean isHidden() {
         return this.isHidden;
     }
 
-    public boolean getVisited() {
+    public boolean isVisited() {
         return this.isVisited;
     }
 

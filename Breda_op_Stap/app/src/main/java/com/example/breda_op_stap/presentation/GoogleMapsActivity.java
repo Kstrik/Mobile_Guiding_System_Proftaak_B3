@@ -4,6 +4,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.DownloadManager;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -22,11 +23,14 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 
@@ -45,10 +49,9 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        //checkLocationPremissions();
+        checkLocationPremissions();
     }
 
-/*
     private void checkLocationPremissions()
     {
         boolean permissionAccessCoarseLocationApproved = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED;
@@ -66,33 +69,53 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     private void setupLocationServices()
     {
         this.fushedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-        LocationRequest locationRequest = new LocationRequest();
-        locationRequest.setInterval(1000).setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setInterval(1000).setFastestInterval(500).setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+
+        final AlertDialog alert = new AlertDialog.Builder(this).setTitle("Location received!").create();
+//
+//        this.fushedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+//            @Override
+//            public void onSuccess(Location location) {
+//                if (location != null) {
+//                    Log.d("locationReceived", location.getLatitude() + " : " + location.getLongitude());
+//                }
+//                else {d
+//                    alert.show();
+//                    Log.d("locationReceived", "No location received!");
+//                }
+//            }
+//        });
 
         this.locationCallback = new LocationCallback()
         {
             @Override
             public void onLocationResult(LocationResult locationResult)
             {
+                Log.d("locationReceived", "Location update!");
                 if (locationResult == null)
+                {
+                    Log.d("locationReceived", "No location received!");
                     return;
+                }
 
                 for (Location location : locationResult.getLocations())
                 {
+                    //alert.show();
                     if (location != null) {
-                        Log.i("locationReceived", location.getLatitude() + " : " + location.getLongitude());
+                        Log.d("locationReceived", location.getLatitude() + " : " + location.getLongitude());
                     }
                 }
             }
         };
-        this.fushedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+        this.fushedLocationProviderClient.requestLocationUpdates(locationRequest, this.locationCallback, Looper.myLooper());
     }
-*/
 
     @Override
     public void onMapReady(GoogleMap googleMap)
     {
         this.googleMap = googleMap;
+        //this.googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
         // Add a marker in Sydney and move the camera
 //        LatLng sydney = new LatLng(-34, 151);
@@ -101,7 +124,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
         ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
         for(int i = 0; i < 10; i++)
-            waypoints.add(new Waypoint("test", new LatLng(i, 10), "Test", null, false, false, false));
+            waypoints.add(new Waypoint("test", new LatLng(i, 10), "Test", null, (i >= 9 && i <= 9), (i >= 2 && i <= 4), (i >= 5 && i <= 8)));
         displayRoute(waypoints);
     }
 
@@ -113,8 +136,17 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
             for(Waypoint waypoint : waypoints)
             {
-                Marker marker = this.googleMap.addMarker(new MarkerOptions().position(waypoint.getLocation()).title(waypoint.getDescription()));
-                marker.setTag(0);
+                if(!waypoint.isHidden())
+                {
+                    MarkerOptions markerOptions = new MarkerOptions().position(waypoint.getLocation()).title(waypoint.getName());
+                    if(waypoint.isVisited())
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                    if(waypoint.isFavorite())
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+                    Marker marker = this.googleMap.addMarker(markerOptions);
+                }
+                //marker.setTag(0);
                 polylineOptions.add(waypoint.getLocation());
             }
 
