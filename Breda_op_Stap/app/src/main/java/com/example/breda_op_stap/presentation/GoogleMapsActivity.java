@@ -101,7 +101,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
         ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
         for(int i = 0; i < 10; i++)
-            waypoints.add(new Waypoint(new LatLng(i, 10), "Test", null, false, false, false));
+            waypoints.add(new Waypoint("test", new LatLng(i, 10), "Test", null, false, false, false));
         displayRoute(waypoints);
     }
 
