@@ -12,6 +12,7 @@ import android.os.Looper;
 import android.util.Log;
 
 import com.example.breda_op_stap.R;
+import com.example.breda_op_stap.data.RouteParser;
 import com.example.breda_op_stap.data.Waypoint;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -42,6 +43,10 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_maps);
+        RouteParser routeParser = new RouteParser();
+        String json = routeParser.loadJSONFromAsset(this, "JsonRoute");
+        routeParser.parseFile(json);
+        Log.d("PARSED", routeParser.parseFile(json).toString());
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class RouteParser {
 
-    public void loadJSONFromAsset(Context context, String file) {
+    public String loadJSONFromAsset(Context context, String file) {
         String json = null;
         try {
             InputStream is = context.getAssets().open(file);
@@ -21,8 +21,9 @@ public class RouteParser {
 
         } catch (Exception e) {
             e.printStackTrace();
+            return null;
         }
-        parseFile(json);
+        return json;
     }
 
     public ArrayList<Waypoint> parseFile(String JSONstring) {
@@ -33,7 +34,7 @@ public class RouteParser {
                 String name = obj.getJSONObject(i).getString("name");
                 LatLng position = new LatLng(
                         obj.getJSONObject(i).getJSONObject("coordinates").getInt("lat"),
-                        obj.getJSONObject(i).getJSONObject("coordinates").getInt("long")
+                        obj.getJSONObject(i).getJSONObject("coordinates").getInt("lng")
                 );
                 String desc = obj.getJSONObject(i).getString("description");
                 ArrayList<String> images = new ArrayList<String>();
