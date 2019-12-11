@@ -1,0 +1,53 @@
+[
+  {
+    "RouteID" : 1,
+    "name" : "VVV",
+    "coordinates":
+    {
+      "lat" : 51.588859,
+      "lng" : 4.777239
+    },
+    "description" : "string",
+    "images" :
+    [
+      "picture1", "picture2"
+    ],
+    "isVisited" : false,
+    "isFavorite" : false,
+    "isHidden" : false
+  },
+  {
+    "RouteID" : 2,
+    "name" : "Liefdeszuster",
+    "coordinates":
+    {
+      "lat" : 51.593287,
+      "lng" : 4.779457
+    },
+    "description" : "string",
+    "images" :
+    [
+      "picture3"
+    ],
+    "isVisited" : false,
+    "isFavorite" : false,
+    "isHidden" : false
+  },
+  {
+    "RouteID" : 3,
+    "name" : "Nassau Baronie Monument",
+    "coordinates":
+    {
+      "lat" : 51.592574,
+      "lng" : 4.779793
+    },
+    "description" : "string",
+    "images" :
+    [
+      "picture4"
+    ],
+    "isVisited" : false,
+    "isFavorite" : false,
+    "isHidden" : false
+  }
+]
