@@ -46,6 +46,9 @@
         <activity android:name=".MainActivity">
 
         </activity>
+        <activity android:name=".presentation.POIActivity" >
+
+        </activity>
     </application>
 
 </manifest>
