@@ -1,9 +1,11 @@
 package com.example.breda_op_stap.data;
 
+import android.media.Image;
 import android.provider.MediaStore;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Waypoint
@@ -11,12 +13,12 @@ public class Waypoint
     LatLng location;
     String description;
     String name;
-    List<MediaStore.Images> images;
+    ArrayList<String> images;
     boolean isVisited;
     boolean isFavorite;
     boolean isHidden;
 
-    public Waypoint(String name, LatLng position, String desc, List<MediaStore.Images> images, boolean isVisited, boolean isFavorite, boolean isHidden )
+    public Waypoint(String name, LatLng position, String desc, ArrayList<String> images, boolean isVisited, boolean isFavorite, boolean isHidden )
     {
         this.name = name;
         this.location = position;
@@ -47,7 +49,7 @@ public class Waypoint
         return this.name;
     }
 
-    public List<MediaStore.Images> getImages() {
+    public ArrayList<String> getImages() {
         return this.images;
     }
 
@@ -67,7 +69,7 @@ public class Waypoint
         this.isHidden = hidden;
     }
 
-    public void setImages(List<MediaStore.Images> images) {
+    public void setImages(ArrayList<String> images) {
         this.images = images;
     }
 
