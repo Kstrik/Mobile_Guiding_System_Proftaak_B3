@@ -10,13 +10,15 @@ public class Waypoint
 {
     LatLng location;
     String description;
+    String name;
     List<MediaStore.Images> images;
     boolean isVisited;
     boolean isFavorite;
     boolean isHidden;
 
-    public Waypoint(LatLng position, String desc, List<MediaStore.Images> images, boolean isVisited, boolean isFavorite, boolean isHidden )
+    public Waypoint(String name, LatLng position, String desc, List<MediaStore.Images> images, boolean isVisited, boolean isFavorite, boolean isHidden )
     {
+        this.name = name;
         this.location = position;
         this.description = desc;
         this.images = images;
@@ -41,6 +43,10 @@ public class Waypoint
         return this.location;
     }
 
+    public String getName() {
+        return this.name;
+    }
+
     public List<MediaStore.Images> getImages() {
         return this.images;
     }
@@ -63,6 +69,10 @@ public class Waypoint
 
     public void setImages(List<MediaStore.Images> images) {
         this.images = images;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setLocation(LatLng location) {
