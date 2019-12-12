@@ -10,6 +10,8 @@ import androidx.fragment.app.FragmentActivity;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -32,7 +34,13 @@ import android.widget.Toast;
 import com.example.breda_op_stap.R;
 import com.example.breda_op_stap.data.Waypoint;
 import com.example.breda_op_stap.logic.RouteParser;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.Geofence;
+import com.google.android.gms.location.GeofencingClient;
+import com.google.android.gms.location.GeofencingEvent;
+import com.google.android.gms.location.GeofencingRequest;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -52,12 +60,14 @@ import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 
 public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback, MenuFragment.OnFragmentInteractionListener
 {
     private GoogleMap googleMap;
     private FusedLocationProviderClient fushedLocationProviderClient;
+    private GeofencingClient geofencingClient;
 
     private LocationCallback locationCallback;
     //private ArrayList<Marker> markers;
@@ -65,6 +75,8 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     private EditText txb_Search;
     private View menuFragment;
+
+    private Waypoint withinRange;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -148,8 +160,26 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     {
         if(this.googleMap != null)
         {
+            boolean waypointsInRange = false;
             //this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
             //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 50));
+            for(Waypoint waypoint : this.waypointMarkers.values())
+            {
+                if(getDistance(new LatLng(location.getLatitude(), location.getLongitude()), waypoint.getLocation()) < 100)
+                {
+                    waypointsInRange = true;
+                    if(this.withinRange == null || !waypoint.getName().equals(this.withinRange.getName()))
+                    {
+                        this.withinRange = waypoint;
+                        Log.d("locationUpdate", this.withinRange.hashCode() + " : " + waypoint.hashCode());
+                        Toast.makeText(this, waypoint.getName() + " : within 100 meters!", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                }
+            }
+
+            if(this.withinRange != null && !waypointsInRange)
+                this.withinRange = null;
         }
     }
 
@@ -288,7 +318,26 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     public void onInfoClick(View view)
     {
-        //TODO change POIActivity to HelpActivity
-        //startActivity(new Intent(this, POIActivity.class));
+        //TODO uncomment when HelpActivity is added
+        //startActivity(new Intent(this, HelpActivity.class));
+    }
+
+    //Returns between two point in meters
+    private double getDistance(LatLng pointA, LatLng pointB)
+    {
+        double radius = 6371e3;
+
+        double phi1 = Math.toRadians(pointA.latitude), alp1 = Math.toRadians(pointA.longitude);
+        double phi2 = Math.toRadians(pointB.latitude), alp2 = Math.toRadians(pointB.longitude);
+        double deltaPhi = phi2 - phi1;
+        double deltaAlpha = alp2 - alp1;
+
+        double a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2)
+                    + Math.cos(phi1) * Math.cos(phi2)
+                    * Math.sin(deltaAlpha / 2) * Math.sin(deltaAlpha / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = radius * c;
+
+        return d;
     }
 }
