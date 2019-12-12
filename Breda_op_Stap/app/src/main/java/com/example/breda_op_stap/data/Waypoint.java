@@ -5,10 +5,11 @@ import android.provider.MediaStore;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Waypoint
+public class Waypoint implements Serializable
 {
     LatLng location;
     String description;

@@ -14,4 +14,8 @@ So what\'s wrong with taking the back streets?
 You\'ll never know if you don\'t go
 You\'ll never shine if you don\'t glow</string>
     <string name="poiTitle">tietel</string>
+    <string name="appinfo">applicatie info</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="favorieten">favorieten</string>
 </resources>
