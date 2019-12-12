@@ -18,20 +18,24 @@ import org.json.JSONObject;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-public class RouteParser {
+public class RouteParser
+{
     Context context;
-        RequestQueue requestQueue;
-        POIListener listener;
+    RequestQueue requestQueue;
+    POIListener listener;
 
-        public RouteParser(Context context, POIListener listener) {
-            this.context = context;
-            this.requestQueue = Volley.newRequestQueue(this.context);
-            this.listener = listener;
-        }
+    public RouteParser(Context context, POIListener listener)
+    {
+        this.context = context;
+        this.requestQueue = Volley.newRequestQueue(this.context);
+        this.listener = listener;
+    }
 
-    public String loadJSONFromAsset(String file) {
+    public String loadJSONFromAsset(String file)
+    {
         String json = null;
-        try {
+        try
+        {
             InputStream is = context.getAssets().open(file);
             int size = is.available();
             byte[] buffer = new byte[size];
@@ -39,22 +43,25 @@ public class RouteParser {
             is.close();
             json = new String(buffer, "UTF-8");
 
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             e.printStackTrace();
             return null;
         }
         return json;
     }
 
-    public void parseFile(String JSONstring) {
-
+    public void parseFile(String JSONstring)
+    {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
                 JSONstring,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONObject response)
+                    {
                         ArrayList<Waypoint> waypoints = new ArrayList<>();
                         try {
                             JSONArray obj = new JSONArray(JSONstring);
@@ -81,7 +88,8 @@ public class RouteParser {
                     }
                 }, new Response.ErrorListener() {
             @Override
-            public void onErrorResponse(VolleyError error) {
+            public void onErrorResponse(VolleyError error)
+            {
                 Log.d("VOLLEY_TAG", error.toString());
             }
         });

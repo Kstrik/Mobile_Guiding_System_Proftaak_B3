@@ -13,9 +13,14 @@ So much to do, so much to see
 So what\'s wrong with taking the back streets?
 You\'ll never know if you don\'t go
 You\'ll never shine if you don\'t glow</string>
-    <string name="poiTitle">tietel</string>
+    <string name="poiTitle">titel</string>
     <string name="appinfo">applicatie info</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="favorieten">favorieten</string>
+
+    <string name="premissions_location_denied">Permission denied, enable location to use the full app!</string>
+    <string name="marker_search_hint">Search...</string>
+    <string name="no_markers_found">No point of interest found!</string>
+    <string name="marker_search_empty">No point of interest name given!</string>
 </resources>
