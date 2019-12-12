@@ -13,13 +13,13 @@ import java.util.List;
 
 public class Waypoint implements Serializable
 {
-    LatLng location;
-    String description;
-    String name;
-    ArrayList<String> images;
-    boolean isVisited;
-    boolean isFavorite;
-    boolean isHidden;
+    transient private LatLng location;
+    private String description;
+    private String name;
+    private ArrayList<String> images;
+    private boolean isVisited;
+    private boolean isFavorite;
+    private boolean isHidden;
 
     public Waypoint(String name, LatLng position, String desc, ArrayList<String> images, boolean isVisited, boolean isFavorite, boolean isHidden )
     {
@@ -64,11 +64,11 @@ public class Waypoint implements Serializable
         this.description = description;
     }
 
-    public void setFavorite(boolean favorite) {
+    public void setIsFavorite(boolean favorite) {
         this.isFavorite = favorite;
     }
 
-    public void setHidden(boolean hidden) {
+    public void setIsHidden(boolean hidden) {
         this.isHidden = hidden;
     }
 
@@ -84,8 +84,8 @@ public class Waypoint implements Serializable
         this.location = location;
     }
 
-    public void setVisited(boolean visited) {
-        isVisited = visited;
+    public void setIsVisited(boolean visited) {
+        this.isVisited = visited;
     }
 
     @NonNull

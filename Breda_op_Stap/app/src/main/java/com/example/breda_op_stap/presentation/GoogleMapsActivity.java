@@ -51,6 +51,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 
 public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback, MenuFragment.OnFragmentInteractionListener
@@ -59,7 +60,8 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     private FusedLocationProviderClient fushedLocationProviderClient;
 
     private LocationCallback locationCallback;
-    private ArrayList<Marker> markers;
+    //private ArrayList<Marker> markers;
+    private HashMap<Marker, Waypoint> waypointMarkers;
 
     private EditText txb_Search;
     private View menuFragment;
@@ -70,7 +72,8 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_maps);
 
-        this.markers = new ArrayList<Marker>();
+        //this.markers = new ArrayList<Marker>();
+        this.waypointMarkers = new HashMap<Marker, Waypoint>();
         this.txb_Search = (EditText)findViewById(R.id.txb_SearchMarker);
         this.menuFragment = findViewById(R.id.menuFragment);
 
@@ -159,19 +162,28 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
             this.googleMap.setMyLocationEnabled(true);
         //this.googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
-//        //--------TEST DATA--------
-//        ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
-//        for(int i = 0; i < 10; i++)
-//            waypoints.add(new Waypoint("Test" + i, new LatLng(i, 10), "Test", null, (i >= 9 && i <= 9), (i >= 2 && i <= 4), (i >= 5 && i <= 8)));
-//        displayRoute(waypoints);
-//        //-------------------------
+        this.googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker)
+            {
+                onMarkerClicked(marker);
+                return true;
+            }
+        });
+
+        //--------TEST DATA--------
+        ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
+        for(int i = 0; i < 10; i++)
+            waypoints.add(new Waypoint("Test" + i, new LatLng(i, 10), "Test", new ArrayList<String>(), (i >= 9 && i <= 9), (i >= 2 && i <= 4), (i >= 5 && i <= 8)));
+        displayRoute(waypoints);
+        //-------------------------
     }
 
     public void displayRoute(ArrayList<Waypoint> waypoints)
     {
         if(waypoints != null && waypoints.size() != 0)
         {
-            this.markers.clear();
+            this.waypointMarkers.clear();
             this.googleMap.clear();
             PolylineOptions polylineOptions = new PolylineOptions().clickable(false);
 
@@ -186,7 +198,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
 
                     Marker marker = this.googleMap.addMarker(markerOptions);
-                    this.markers.add(marker);
+                    this.waypointMarkers.put(marker, waypoint);
                 }
                 //marker.setTag(0);
                 polylineOptions.add(waypoint.getLocation());
@@ -198,13 +210,26 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         }
     }
 
+    public void addWaypoint(Waypoint waypoint)
+    {
+        if(this.googleMap != null)
+        {
+
+        }
+    }
+
+    private void onMarkerClicked(Marker marker)
+    {
+        startActivity(new Intent(this, DetailedActivity.class).putExtra("waypoint", this.waypointMarkers.get(marker)));
+    }
+
     public void onSearchMarkerClick(View view)
     {
         if(this.txb_Search.getText() != null && !this.txb_Search.getText().toString().equals(""))
         {
             String markerName = this.txb_Search.getText().toString();
 
-            for(Marker marker : markers)
+            for(Marker marker : this.waypointMarkers.keySet())
             {
                 if(marker.getTitle().toLowerCase().startsWith(markerName))
                 {

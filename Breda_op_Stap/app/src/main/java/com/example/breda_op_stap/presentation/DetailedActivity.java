@@ -17,7 +17,9 @@ public class DetailedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed);
 
         Waypoint waypoint = (Waypoint)getIntent().getSerializableExtra("waypoint");
-        TextView textView = this.findViewById(R.id.poiTitle);
-        textView.setText("pindakaas");
+        TextView title = this.findViewById(R.id.poiTitle);
+        TextView description = this.findViewById(R.id.poiInfo);
+        title.setText(waypoint.getName());
+        description.setText(waypoint.getDescription());
     }
 }
