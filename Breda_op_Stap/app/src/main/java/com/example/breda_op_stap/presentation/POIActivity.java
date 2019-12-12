@@ -33,8 +33,8 @@ public class POIActivity extends AppCompatActivity implements POIListener {
         recyclerView.setAdapter(this.poiAdapter);
 
         // TODO: Triggering the function should start getting waypoints and callback on onPOIAvailable.
-        // RouteParser routeParser = new RouteParser();
-        // routeParser.parseFile("waypoints.txt", this);
+        RouteParser routeParser = new RouteParser(getApplicationContext(), this);
+        routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"));
 
         // TODO: TIP: the following is possible
         // function (Context context) {
@@ -44,7 +44,6 @@ public class POIActivity extends AppCompatActivity implements POIListener {
 
     @Override
     public void onPOIAvailable(Waypoint waypoint) {
-
         this.waypoints.add(waypoint);
         this.poiAdapter.notifyDataSetChanged();
     }

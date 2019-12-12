@@ -49,5 +49,39 @@
     "isVisited" : false,
     "isFavorite" : false,
     "isHidden" : false
+  },
+  {
+    "RouteID" : 4,
+    "name" : "The Light House",
+    "coordinates":
+    {
+      "lat" : 51.593139,
+      "lng" : 4.778167
+    },
+    "description" : "string",
+    "images" :
+    [
+      "picture5"
+    ],
+    "isVisited" : false,
+    "isFavorite" : false,
+    "isHidden" : false
+  },
+  {
+    "RouteID" : 5,
+    "name" : "Kasteel van Breda",
+    "coordinates":
+    {
+      "lat" : 51.591613,
+      "lng" : 4.775357
+    },
+    "description" : "string",
+    "images" :
+    [
+      "picture9"
+    ],
+    "isVisited" : false,
+    "isFavorite" : false,
+    "isHidden" : false
   }
 ]
