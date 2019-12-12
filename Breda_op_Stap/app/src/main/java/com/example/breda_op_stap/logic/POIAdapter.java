@@ -1,10 +1,14 @@
 package com.example.breda_op_stap.logic;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,8 +16,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.breda_op_stap.R;
 import com.example.breda_op_stap.data.Waypoint;
 
+import java.io.File;
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
 public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>{
 
@@ -37,7 +41,13 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>{
     public void onBindViewHolder(@NonNull POIViewHolder holder, int position) {
 
         Waypoint waypoint = this.waypoints.get(position);
+        holder.latitude.setText((int) waypoint.getLocation().latitude);
+        holder.longitude.setText((int) waypoint.getLocation().longitude);
+        holder.name.setText(waypoint.getName());
 
+        File file = new File(waypoint.getImages().get(0));
+        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+        holder.image.setImageBitmap(bitmap);
     }
 
     @Override
@@ -46,22 +56,32 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>{
         return this.waypoints.size();
     }
 
-    public class POIViewHolder extends RecyclerView.ViewHolder {
+    class POIViewHolder extends RecyclerView.ViewHolder {
 
-        public POIViewHolder(@NonNull View itemView) {
+        TextView latitude;
+        TextView longitude;
+        TextView name;
+        ImageView image;
+
+        POIViewHolder(@NonNull View itemView) {
 
             super(itemView);
+
+            this.latitude = itemView.findViewById(R.id.poi_item_lat);
+            this.longitude = itemView.findViewById(R.id.poi_item_long);
+            this.name = itemView.findViewById(R.id.poi_item_name);
+            this.image = itemView.findViewById(R.id.poi_item_image);
 
             itemView.setOnClickListener(this::onClick);
         }
 
         private void onClick(View view) {
 
-            // TODO: // null should become DetailedActivity
-             Intent intent = new Intent(view.getContext(), null);
-             intent.putExtra("WAYPOINT", (Parcelable) this.getCurrentWaypoint());
+            // TODO: // null should become DetailedActivity.class or different depending on the classname
+            Intent intent = new Intent(view.getContext(), null);
+            intent.putExtra("WAYPOINT", (Parcelable) this.getCurrentWaypoint());
 
-             view.getContext().startActivity(intent);
+            view.getContext().startActivity(intent);
         }
 
         private Waypoint getCurrentWaypoint() {

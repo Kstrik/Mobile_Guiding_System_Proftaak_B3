@@ -29,7 +29,7 @@ public class POIActivity extends AppCompatActivity implements POIListener {
         this.waypoints = new ArrayList<>();
         this.poiAdapter = new POIAdapter(this.waypoints);
 
-        RecyclerView recyclerView = findViewById(R.id.poi_recyclerView);
+        RecyclerView recyclerView = findViewById(R.id.poi_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(this.poiAdapter);
 
