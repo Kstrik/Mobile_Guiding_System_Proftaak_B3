@@ -48,4 +48,26 @@
         app:maxImageSize="30dp"
         app:srcCompat="@android:drawable/ic_menu_search" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btn_Menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:onClick="onMenuClick"
+        app:backgroundTint="#0A79CE"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxImageSize="30dp"
+        app:srcCompat="@drawable/ic_menu_white_24dp" />
+
+    <fragment
+        android:id="@+id/menuFragment"
+        android:name="com.example.breda_op_stap.presentation.MenuFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_Menu" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

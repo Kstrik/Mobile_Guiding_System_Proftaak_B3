@@ -4,15 +4,25 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.view.DragAndDropPermissionsCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
 import android.Manifest;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
+import android.content.Context;
+import android.content.ContextWrapper;
+import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Location;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
+import android.preference.PreferenceManager;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.DragAndDropPermissions;
 import android.view.View;
@@ -41,8 +51,9 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
-public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyCallback
+public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback, MenuFragment.OnFragmentInteractionListener
 {
     private GoogleMap googleMap;
     private FusedLocationProviderClient fushedLocationProviderClient;
@@ -51,6 +62,7 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
     private ArrayList<Marker> markers;
 
     private EditText txb_Search;
+    private View menuFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -60,6 +72,9 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
 
         this.markers = new ArrayList<Marker>();
         this.txb_Search = (EditText)findViewById(R.id.txb_SearchMarker);
+        this.menuFragment = findViewById(R.id.menuFragment);
+
+        this.menuFragment.setVisibility(View.INVISIBLE);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -144,12 +159,12 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
             this.googleMap.setMyLocationEnabled(true);
         //this.googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
-        //--------TEST DATA--------
-        ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
-        for(int i = 0; i < 10; i++)
-            waypoints.add(new Waypoint("Test" + i, new LatLng(i, 10), "Test", null, (i >= 9 && i <= 9), (i >= 2 && i <= 4), (i >= 5 && i <= 8)));
-        displayRoute(waypoints);
-        //-------------------------
+//        //--------TEST DATA--------
+//        ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
+//        for(int i = 0; i < 10; i++)
+//            waypoints.add(new Waypoint("Test" + i, new LatLng(i, 10), "Test", null, (i >= 9 && i <= 9), (i >= 2 && i <= 4), (i >= 5 && i <= 8)));
+//        displayRoute(waypoints);
+//        //-------------------------
     }
 
     public void displayRoute(ArrayList<Waypoint> waypoints)
@@ -202,5 +217,53 @@ public class GoogleMapsActivity extends AppCompatActivity implements OnMapReadyC
         }
         else
             Toast.makeText(this, R.string.marker_search_empty, Toast.LENGTH_LONG).show();
+    }
+
+    public void onMenuClick(View view)
+    {
+        if(this.menuFragment.getVisibility() == View.VISIBLE)
+            this.menuFragment.setVisibility(View.INVISIBLE);
+        else
+            this.menuFragment.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri)
+    {
+
+    }
+
+    public void onFavoritesClick(View view)
+    {
+        startActivity(new Intent(this, POIActivity.class));
+    }
+
+    public void onLanguageClick(View view)
+    {
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+
+        switch(view.getTag().toString())
+        {
+            case "nl":
+            case "us":
+            {
+                //conf.setLocale(new Locale(view.getTag().toString().toLowerCase()));
+                //res.updateConfiguration(conf, dm);
+                break;
+            }
+            default:
+            {
+                Toast.makeText(this, R.string.language_not_supported, Toast.LENGTH_LONG).show();
+                break;
+            }
+        }
+    }
+
+    public void onInfoClick(View view)
+    {
+        //TODO change POIActivity to HelpActivity
+        //startActivity(new Intent(this, POIActivity.class));
     }
 }
