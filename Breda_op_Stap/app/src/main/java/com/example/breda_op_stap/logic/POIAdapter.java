@@ -19,27 +19,26 @@ import com.example.breda_op_stap.data.Waypoint;
 import java.io.File;
 import java.util.ArrayList;
 
-public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>{
-
+public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
+{
     private ArrayList<Waypoint> waypoints;
 
     public POIAdapter(ArrayList<Waypoint> waypoints)
     {
-
         this.waypoints = waypoints;
     }
 
     @NonNull
     @Override
-    public POIViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
+    public POIViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
+    {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return new POIViewHolder(inflater.inflate(R.layout.activity_poi_item, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(@NonNull POIViewHolder holder, int position) {
-
+    public void onBindViewHolder(@NonNull POIViewHolder holder, int position)
+    {
         Waypoint waypoint = this.waypoints.get(position);
         holder.latitude.setText((int) waypoint.getLocation().latitude);
         holder.longitude.setText((int) waypoint.getLocation().longitude);
@@ -51,20 +50,20 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>{
     }
 
     @Override
-    public int getItemCount() {
-
+    public int getItemCount()
+    {
         return this.waypoints.size();
     }
 
-    class POIViewHolder extends RecyclerView.ViewHolder {
-
+    class POIViewHolder extends RecyclerView.ViewHolder
+    {
         TextView latitude;
         TextView longitude;
         TextView name;
         ImageView image;
 
-        POIViewHolder(@NonNull View itemView) {
-
+        public POIViewHolder(@NonNull View itemView)
+        {
             super(itemView);
 
             this.latitude = itemView.findViewById(R.id.poi_item_lat);
@@ -75,8 +74,8 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>{
             itemView.setOnClickListener(this::onClick);
         }
 
-        private void onClick(View view) {
-
+        private void onClick(View view)
+        {
             // TODO: // null should become DetailedActivity.class or different depending on the classname
             Intent intent = new Intent(view.getContext(), null);
             intent.putExtra("WAYPOINT", (Parcelable) this.getCurrentWaypoint());
@@ -84,8 +83,8 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>{
             view.getContext().startActivity(intent);
         }
 
-        private Waypoint getCurrentWaypoint() {
-
+        private Waypoint getCurrentWaypoint()
+        {
             return waypoints.get(POIViewHolder.super.getAdapterPosition());
         }
     }

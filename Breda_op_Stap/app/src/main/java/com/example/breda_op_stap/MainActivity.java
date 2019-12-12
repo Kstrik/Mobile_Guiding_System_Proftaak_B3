@@ -3,9 +3,6 @@ package com.example.breda_op_stap;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
-import android.util.Log;
-
-import com.example.breda_op_stap.data.RouteParser;
 
 public class MainActivity extends AppCompatActivity {
 

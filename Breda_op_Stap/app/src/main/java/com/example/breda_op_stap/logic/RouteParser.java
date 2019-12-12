@@ -1,6 +1,8 @@
-package com.example.breda_op_stap.data;
+package com.example.breda_op_stap.logic;
 
 import android.content.Context;
+
+import com.example.breda_op_stap.data.Waypoint;
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;

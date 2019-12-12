@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.breda_op_stap.R;
-import com.example.breda_op_stap.data.RouteParser;
 import com.example.breda_op_stap.data.Waypoint;
 import com.example.breda_op_stap.logic.POIAdapter;
 import com.example.breda_op_stap.logic.POIListener;

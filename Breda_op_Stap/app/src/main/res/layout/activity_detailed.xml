@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DetailedActivity">
+    tools:context=".presentation.DetailedActivity">
 
     <TextView
         android:id="@+id/poiInfo"
@@ -53,7 +53,6 @@
         android:id="@+id/pointOfInterest_img"
         android:layout_width="211dp"
         android:layout_height="167dp"
-        android:src="@drawable/tankbreda"
         app:civ_border_color="#FF000000"
         app:civ_border_width="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
