@@ -51,6 +51,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     private FusedLocationProviderClient fushedLocationProviderClient;
     private LocationCallback locationCallback;
 
+    private ArrayList<LatLng> locations;
     private ArrayList<Waypoint> waypoints;
     private HashMap<Marker, Waypoint> waypointMarkers;
 
@@ -61,12 +62,16 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     private Notification notification;
     private DirectionsAPIManager directionsAPIManager;
 
+    private Polyline polyline;
+    private Polyline walkedRoute;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_maps);
 
+        this.locations = new ArrayList<LatLng>();
         this.waypoints = new ArrayList<Waypoint>();
         this.waypointMarkers = new HashMap<Marker, Waypoint>();
 
@@ -160,11 +165,24 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                 }
             }
 
-
             if(closestWaypoint != null && (this.withinRange == null || !this.withinRange.getName().equals(closestWaypoint.getName())))
                 this.notification.encounteredWaypointNotifier(closestWaypoint.getName(), closestWaypoint.getDescription());
 
             this.withinRange = closestWaypoint;
+
+            //Test code
+            if(this.polyline != null)
+            {
+                LatLng closestPointOnPolyline = closedPointOnPolyline(new LatLng(location.getLatitude(), location.getLongitude()), this.polyline);
+
+                if(this.walkedRoute != null)
+                    this.walkedRoute.remove();
+
+                ArrayList<LatLng> test = getLocationsBefore(closestPointOnPolyline);
+                PolylineOptions polylineOptions = new PolylineOptions().clickable(false).addAll(test);
+                polylineOptions.color(getResources().getColor(R.color.colorAccent)).width(20);
+                this.walkedRoute = this.googleMap.addPolyline(polylineOptions);
+            }
         }
     }
 
@@ -272,33 +290,16 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         startActivity(new Intent(this, HelpActivity.class));
     }
 
-    //Returns distance between two points in meters
-    private double getDistance(LatLng pointA, LatLng pointB)
-    {
-        double radius = 6371e3;
-
-        double phi1 = Math.toRadians(pointA.latitude), alp1 = Math.toRadians(pointA.longitude);
-        double phi2 = Math.toRadians(pointB.latitude), alp2 = Math.toRadians(pointB.longitude);
-        double deltaPhi = phi2 - phi1;
-        double deltaAlpha = alp2 - alp1;
-
-        double a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2)
-                    + Math.cos(phi1) * Math.cos(phi2)
-                    * Math.sin(deltaAlpha / 2) * Math.sin(deltaAlpha / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        double d = radius * c;
-
-        return d;
-    }
-
     @Override
     public void onRouteAvailable(ArrayList<LatLng> locations, ArrayList<Waypoint> waypoints)
     {
         if(waypoints != null && waypoints.size() != 0)
         {
+            this.locations.clear();
             this.waypoints.clear();
             this.waypointMarkers.clear();
             this.googleMap.clear();
+            this.locations.addAll(locations);
             this.waypoints.addAll(waypoints);
 
             for(Waypoint waypoint : waypoints)
@@ -316,9 +317,69 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                 }
             }
 
-            this.googleMap.addPolyline(new PolylineOptions().clickable(false).addAll(locations));
+            this.polyline = this.googleMap.addPolyline(new PolylineOptions().clickable(false).addAll(locations));
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(waypoints.get(0).getLocation()));
             //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(waypoints.get(0).getLocation(), 50));
         }
+    }
+
+    private ArrayList<LatLng> getLocationsBefore(LatLng latLng)
+    {
+        ArrayList<LatLng> locationsBefore = new ArrayList<LatLng>();
+
+        for(LatLng location : this.locations)
+        {
+            locationsBefore.add(location);
+
+            if(location.latitude == latLng.latitude && location.longitude == latLng.longitude)
+                break;
+        }
+        return locationsBefore;
+    }
+
+    //Returns distance between two points in meters
+    private double getDistance(LatLng pointA, LatLng pointB)
+    {
+        double radius = 6371e3;
+
+        double phi1 = Math.toRadians(pointA.latitude), alp1 = Math.toRadians(pointA.longitude);
+        double phi2 = Math.toRadians(pointB.latitude), alp2 = Math.toRadians(pointB.longitude);
+        double deltaPhi = phi2 - phi1;
+        double deltaAlpha = alp2 - alp1;
+
+        double a = Math.sin(deltaPhi / 2) * Math.sin(deltaPhi / 2)
+                + Math.cos(phi1) * Math.cos(phi2)
+                * Math.sin(deltaAlpha / 2) * Math.sin(deltaAlpha / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double d = radius * c;
+
+        return d;
+    }
+
+    private LatLng closedPointOnPolyline(LatLng point, Polyline polyline)
+    {
+        double lat = point.latitude;
+        double lng = point.longitude;
+        LatLng closest = null;
+        double distance = 999999999;
+
+        for(int i = 0; i < polyline.getPoints().size() - 1; i++)
+        {
+            double a = polyline.getPoints().get(i).latitude;
+            double b = polyline.getPoints().get(i).longitude;
+            double c = polyline.getPoints().get(i + 1).latitude;
+            double d = polyline.getPoints().get(i + 1).longitude;
+            double n = (c - a)*(c - a) + (d - b)*(d - b);
+            double frac = (n == 1) ? ((lat - a)*(lat - a) + (lng - b)+(d - b)) / n : 0;
+            double e = a + (c - a)*frac;
+            double f = b + (d - b)*frac;
+            double dist = Math.sqrt((lat - e)*(lat - e) + (lng - f)*(lng - f));
+            if(distance == 999999999 || distance > dist)
+            {
+                distance = dist;
+                closest = new LatLng(e, f);
+            }
+        }
+        return closest;
     }
 }
