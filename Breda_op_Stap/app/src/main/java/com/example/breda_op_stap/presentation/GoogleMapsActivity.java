@@ -24,8 +24,8 @@ import com.example.breda_op_stap.data.Waypoint;
 import com.example.breda_op_stap.logic.DirectionsAPIListener;
 import com.example.breda_op_stap.logic.DirectionsAPIManager;
 import com.example.breda_op_stap.logic.Notification;
+import com.example.breda_op_stap.logic.RouteParser;
 import com.google.android.gms.location.FusedLocationProviderClient;
-import com.google.android.gms.location.GeofencingClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -46,15 +46,17 @@ import java.util.HashMap;
 public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback, MenuFragment.OnFragmentInteractionListener, DirectionsAPIListener
 {
     private GoogleMap googleMap;
+
     private FusedLocationProviderClient fushedLocationProviderClient;
-    private GeofencingClient geofencingClient;
     private LocationCallback locationCallback;
-    //private ArrayList<Marker> markers;
+
     private ArrayList<Waypoint> waypoints;
     private HashMap<Marker, Waypoint> waypointMarkers;
+
     private EditText txb_Search;
     private View menuFragment;
     private Waypoint withinRange;
+
     private Notification notification;
     private DirectionsAPIManager directionsAPIManager;
 
@@ -64,12 +66,13 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_maps);
 
-        //this.markers = new ArrayList<Marker>();
         this.waypoints = new ArrayList<Waypoint>();
         this.waypointMarkers = new HashMap<Marker, Waypoint>();
+
         this.txb_Search = (EditText)findViewById(R.id.txb_SearchMarker);
         this.menuFragment = findViewById(R.id.menuFragment);
         this.menuFragment.setVisibility(View.INVISIBLE);
+
         this.notification = new Notification(this);
         this.directionsAPIManager = new DirectionsAPIManager(this, this);
 
@@ -90,13 +93,9 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     private void checkLocationPremissions()
     {
         if (!hasLocationAccess())
-        {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
-        }
         else
-        {
             setupLocationServices();
-        }
     }
 
     @Override
@@ -111,9 +110,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                 this.googleMap.setMyLocationEnabled(true);
             }
             else
-            {
                 Toast.makeText(this, R.string.premissions_location_denied, Toast.LENGTH_LONG).show();
-            }
         }
     }
 
@@ -319,7 +316,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         startActivity(new Intent(this, HelpActivity.class));
     }
 
-    //Returns distance between two point in meters
+    //Returns distance between two points in meters
     private double getDistance(LatLng pointA, LatLng pointB)
     {
         double radius = 6371e3;

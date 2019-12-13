@@ -41,8 +41,8 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
     public void onBindViewHolder(@NonNull POIViewHolder holder, int position)
     {
         Waypoint waypoint = this.waypoints.get(position);
-        holder.latitude.setText((int) waypoint.getLocation().latitude);
-        holder.longitude.setText((int) waypoint.getLocation().longitude);
+        holder.latitude.setText(Double.toString(waypoint.getLocation().latitude));
+        holder.longitude.setText(Double.toString(waypoint.getLocation().longitude));
         holder.name.setText(waypoint.getName());
 
         File file = new File(waypoint.getImages().get(0));
@@ -76,9 +76,8 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
 
         private void onClick(View view)
         {
-
             Intent intent = new Intent(view.getContext(), DetailedActivity.class);
-            intent.putExtra("WAYPOINT", (Parcelable) this.getCurrentWaypoint());
+            intent.putExtra("waypoint", this.getCurrentWaypoint());
             view.getContext().startActivity(intent);
         }
 
