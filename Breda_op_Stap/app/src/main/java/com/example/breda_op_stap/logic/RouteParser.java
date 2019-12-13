@@ -52,47 +52,30 @@ public class RouteParser
         return json;
     }
 
-    public void parseFile(String JSONstring)
-    {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                JSONstring,
-                null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        ArrayList<Waypoint> waypoints = new ArrayList<>();
-                        try {
-                            JSONArray obj = new JSONArray(JSONstring);
-                            for (int i = 0; i < obj.length(); i++) {
-                                String name = obj.getJSONObject(i).getString("name");
-                                LatLng position = new LatLng(
-                                        obj.getJSONObject(i).getJSONObject("coordinates").getInt("lat"),
-                                        obj.getJSONObject(i).getJSONObject("coordinates").getInt("lng")
-                                );
-                                String desc = obj.getJSONObject(i).getString("description");
-                                ArrayList<String> images = new ArrayList<String>();
-                                for (int z = 0; z < obj.getJSONObject(i).getJSONArray("images").length(); z++) {
-                                    images.add(obj.getJSONObject(i).getJSONArray("images").getString(z));
-                                }
-                                boolean isVisited = obj.getJSONObject(i).getBoolean("isVisited");
-                                boolean isFavorite = obj.getJSONObject(i).getBoolean("isFavorite");
-                                boolean isHidden = obj.getJSONObject(i).getBoolean("isHidden");
+    public ArrayList<Waypoint> parseFile(String JSONstring) {
+        ArrayList<Waypoint> waypoints = new ArrayList<>();
+        try {
+            JSONArray obj = new JSONArray(JSONstring);
+            for (int i = 0; i < obj.length(); i++) {
+                String name = obj.getJSONObject(i).getString("name");
+                LatLng position = new LatLng(
+                        obj.getJSONObject(i).getJSONObject("coordinates").getInt("lat"),
+                        obj.getJSONObject(i).getJSONObject("coordinates").getInt("lng")
+                );
+                String desc = obj.getJSONObject(i).getString("description");
+                ArrayList<String> images = new ArrayList<String>();
+                for (int z = 0; z < obj.getJSONObject(i).getJSONArray("images").length(); z++) {
+                    images.add(obj.getJSONObject(i).getJSONArray("images").getString(z));
+                }
+                boolean isVisited = obj.getJSONObject(i).getBoolean("isVisited");
+                boolean isFavorite = obj.getJSONObject(i).getBoolean("isFavorite");
+                boolean isHidden = obj.getJSONObject(i).getBoolean("isHidden");
 
-                                waypoints.add(new Waypoint(name, position, desc, images, isVisited, isFavorite, isHidden));
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error)
-            {
-                Log.d("VOLLEY_TAG", error.toString());
+                waypoints.add(new Waypoint(name, position, desc, images, isVisited, isFavorite, isHidden));
             }
-        });
-        requestQueue.add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return waypoints;
     }
 }
