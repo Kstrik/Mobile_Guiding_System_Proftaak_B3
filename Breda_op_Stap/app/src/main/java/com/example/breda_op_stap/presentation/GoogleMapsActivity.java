@@ -196,14 +196,6 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         this.directionsAPIManager.requestRoute(waypoints);
     }
 
-    public void addWaypoint(Waypoint waypoint)
-    {
-        if(this.googleMap != null)
-        {
-
-        }
-    }
-
     private void onMarkerClicked(Marker marker)
     {
         startActivity(new Intent(this, DetailedActivity.class).putExtra("waypoint", this.waypointMarkers.get(marker)));
