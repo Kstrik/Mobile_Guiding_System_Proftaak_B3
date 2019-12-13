@@ -14,17 +14,16 @@ import java.util.ArrayList;
 public class RouteParser
 {
     Context context;
-    RequestQueue requestQueue;
+    //RequestQueue requestQueue;
 
     public RouteParser(Context context)
     {
         this.context = context;
-        this.requestQueue = Volley.newRequestQueue(this.context);
+        //this.requestQueue = Volley.newRequestQueue(this.context);
     }
 
     public String loadJSONFromAsset(String file)
     {
-
         String json = null;
         try
         {
@@ -45,12 +44,14 @@ public class RouteParser
         return json;
     }
 
-    public ArrayList<Waypoint> parseFile(String JSONstring) {
-
+    public ArrayList<Waypoint> parseFile(String JSONstring)
+    {
         ArrayList<Waypoint> waypoints = new ArrayList<>();
-        try {
+        try
+        {
             JSONArray obj = new JSONArray(JSONstring);
-            for (int i = 0; i < obj.length(); i++) {
+            for (int i = 0; i < obj.length(); i++)
+            {
                 String name = obj.getJSONObject(i).getString("name");
                 LatLng position = new LatLng(
                         obj.getJSONObject(i).getJSONObject("coordinates").getInt("lat"),
@@ -58,7 +59,8 @@ public class RouteParser
                 );
                 String desc = obj.getJSONObject(i).getString("description");
                 ArrayList<String> images = new ArrayList<String>();
-                for (int z = 0; z < obj.getJSONObject(i).getJSONArray("images").length(); z++) {
+                for (int z = 0; z < obj.getJSONObject(i).getJSONArray("images").length(); z++)
+                {
                     images.add(obj.getJSONObject(i).getJSONArray("images").getString(z));
                 }
                 boolean isVisited = obj.getJSONObject(i).getBoolean("isVisited");
@@ -67,7 +69,9 @@ public class RouteParser
 
                 waypoints.add(new Waypoint(name, position, desc, images, isVisited, isFavorite, isHidden));
             }
-        } catch (JSONException e) {
+        }
+        catch (JSONException e)
+        {
             e.printStackTrace();
         }
         return waypoints;

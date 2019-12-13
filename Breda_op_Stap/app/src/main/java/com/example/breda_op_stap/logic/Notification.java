@@ -14,14 +14,18 @@ import androidx.core.app.NotificationCompat;
 
 import com.example.breda_op_stap.R;
 
-public class Notification {
-    String CHANNEL_ID = "Notification Channel";
-    NotificationManager notificationManager;
-/*
-    private Notification(Context context) {
+public class Notification
+{
+    private String CHANNEL_ID = "Notification Channel";
+    private NotificationManager notificationManager;
+
+    private Context context;
+
+    public Notification(Context context)
+    {
         this.context = context;
         //Make the channel, required for Android 8.0 and above.
-        notificationManager = getBaseContext().getSystemService(NotificationManager.class);
+        notificationManager = this.context.getSystemService(NotificationManager.class);
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -34,8 +38,9 @@ public class Notification {
         }
     }
 
-    public void encounteredWaypointNotifier (String titel, String description) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID);
+    public void encounteredWaypointNotifier (String titel, String description)
+    {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_ID);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(titel)
                 .setContentText(description)
@@ -43,11 +48,10 @@ public class Notification {
                         .bigText(description))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Toast.makeText(getBaseContext(), "Je bent nu in de buurt van: " + titel, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.context, "Je bent nu in de buurt van: " + titel, Toast.LENGTH_SHORT).show();
 
         // NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         // notificationId is a unique int for each notification that you must define
         notificationManager.notify(1, builder.build());
     }
-*/
 }

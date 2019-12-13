@@ -33,6 +33,7 @@ import android.widget.Toast;
 
 import com.example.breda_op_stap.R;
 import com.example.breda_op_stap.data.Waypoint;
+import com.example.breda_op_stap.logic.Notification;
 import com.example.breda_op_stap.logic.RouteParser;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
@@ -78,6 +79,8 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     private Waypoint withinRange;
 
+    private Notification notification;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -90,6 +93,8 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         this.menuFragment = findViewById(R.id.menuFragment);
 
         this.menuFragment.setVisibility(View.INVISIBLE);
+
+        this.notification = new Notification(this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -172,7 +177,8 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                     {
                         this.withinRange = waypoint;
                         Log.d("locationUpdate", this.withinRange.hashCode() + " : " + waypoint.hashCode());
-                        Toast.makeText(this, waypoint.getName() + " : within 100 meters!", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(this, waypoint.getName() + " : within 100 meters!", Toast.LENGTH_LONG).show();
+                        this.notification.encounteredWaypointNotifier(waypoint.getName(), waypoint.getDescription());
                         return;
                     }
                 }
