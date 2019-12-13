@@ -1,19 +1,12 @@
 package com.example.breda_op_stap.logic;
+
 import android.content.Context;
 import com.example.breda_op_stap.data.Waypoint;
-import android.util.Log;
-
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.breda_op_stap.logic.POIListener;
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
