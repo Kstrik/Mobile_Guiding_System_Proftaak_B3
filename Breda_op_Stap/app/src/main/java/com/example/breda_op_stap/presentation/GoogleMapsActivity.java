@@ -38,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -146,28 +147,46 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     {
         if(this.googleMap != null)
         {
-            boolean waypointsInRange = false;
-            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 50));
+//            boolean waypointsInRange = false;
+//            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
+//            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 50));
+//            for(Waypoint waypoint : this.waypointMarkers.values())
+//            {
+//                if(getDistance(new LatLng(location.getLatitude(), location.getLongitude()), waypoint.getLocation()) < 100)
+//                {
+//                    waypointsInRange = true;
+//                    if(this.withinRange == null || !waypoint.getName().equals(this.withinRange.getName()))
+//                    {
+//                        this.withinRange = waypoint;
+//                        Log.d("locationUpdate", this.withinRange.hashCode() + " : " + waypoint.hashCode());
+//                        //Toast.makeText(this, waypoint.getName() + " : within 100 meters!", Toast.LENGTH_LONG).show();
+//                        this.notification.encounteredWaypointNotifier(waypoint.getName(), waypoint.getDescription());
+//                        return;
+//                    }
+//                }
+//            }
+//
+//            if(this.withinRange != null && !waypointsInRange)
+//                this.withinRange = null;
+
+            Waypoint closestWaypoint = null;
+            double closestDistance = 0;
+
             for(Waypoint waypoint : this.waypointMarkers.values())
             {
-                if(getDistance(new LatLng(location.getLatitude(), location.getLongitude()), waypoint.getLocation()) < 100)
+                double distance = getDistance(new LatLng(location.getLatitude(), location.getLongitude()), waypoint.getLocation());
+                if(distance < 100 && (closestWaypoint == null || distance < closestDistance))
                 {
-                    waypointsInRange = true;
-                    if(this.withinRange == null || !waypoint.getName().equals(this.withinRange.getName()))
-                    {
-                        this.withinRange = waypoint;
-                        Log.d("locationUpdate", this.withinRange.hashCode() + " : " + waypoint.hashCode());
-                        //Toast.makeText(this, waypoint.getName() + " : within 100 meters!", Toast.LENGTH_LONG).show();
-                        this.notification.encounteredWaypointNotifier(waypoint.getName(), waypoint.getDescription());
-                        return;
-                    }
+                    closestWaypoint = waypoint;
+                    closestDistance = distance;
                 }
             }
-            if(this.withinRange != null && !waypointsInRange)
-            {
-                this.withinRange = null;
-            }
+
+
+            if(closestWaypoint != null && (this.withinRange == null || !this.withinRange.getName().equals(closestWaypoint.getName())))
+                this.notification.encounteredWaypointNotifier(closestWaypoint.getName(), closestWaypoint.getDescription());
+
+            this.withinRange = closestWaypoint;
         }
     }
 
@@ -360,7 +379,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                 }
             }
 
-            this.googleMap.addPolyline(new PolylineOptions().clickable(false).addAll(locations));
+            Polyline polyline = this.googleMap.addPolyline(new PolylineOptions().clickable(false).addAll(locations));
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(waypoints.get(0).getLocation()));
             //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(waypoints.get(0).getLocation(), 50));
         }

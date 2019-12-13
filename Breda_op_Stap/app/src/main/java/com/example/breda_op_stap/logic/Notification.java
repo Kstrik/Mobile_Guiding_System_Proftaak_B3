@@ -50,7 +50,7 @@ public class Notification
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         //TODO: Implement a check to change between Toast and Notification
-        Toast.makeText(this.context, R.string.notification_close_by + titel, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this.context, this.context.getResources().getString(R.string.notification_close_by) + " " + titel, Toast.LENGTH_SHORT).show();
 
         // NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         // notificationId is a unique int for each notification that you must define
