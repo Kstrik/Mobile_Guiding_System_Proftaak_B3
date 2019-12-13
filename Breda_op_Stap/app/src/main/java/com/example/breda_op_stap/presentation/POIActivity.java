@@ -10,15 +10,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.breda_op_stap.R;
 import com.example.breda_op_stap.data.Waypoint;
 import com.example.breda_op_stap.logic.POIAdapter;
-import com.example.breda_op_stap.logic.POIListener;
 import com.example.breda_op_stap.logic.RouteParser;
 
 import java.util.ArrayList;
 
-public class POIActivity extends AppCompatActivity implements POIListener {
-
-    private ArrayList<Waypoint> waypoints;
-    private POIAdapter poiAdapter;
+public class POIActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -26,26 +22,11 @@ public class POIActivity extends AppCompatActivity implements POIListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi);
 
-        this.waypoints = new ArrayList<>();
-        this.poiAdapter = new POIAdapter(this.waypoints);
+        RouteParser routeParser = new RouteParser(getApplicationContext());
+        ArrayList<Waypoint> waypoints = routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"));
 
         RecyclerView recyclerView = findViewById(R.id.poi_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(this.poiAdapter);
-
-        // TODO: Triggering the function should start getting waypoints and callback on onPOIAvailable.
-        RouteParser routeParser = new RouteParser(getApplicationContext(), this);
-        routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"));
-
-        // TODO: TIP: the following is possible
-        // function (Context context) {
-        //      this.listener = (POIListener) context;
-        // }
-    }
-
-    @Override
-    public void onPOIAvailable(Waypoint waypoint) {
-        this.waypoints.add(waypoint);
-        this.poiAdapter.notifyDataSetChanged();
+        recyclerView.setAdapter(new POIAdapter(waypoints));
     }
 }

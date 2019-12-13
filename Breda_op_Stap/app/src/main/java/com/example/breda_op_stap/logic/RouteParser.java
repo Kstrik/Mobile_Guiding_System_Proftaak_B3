@@ -1,19 +1,12 @@
 package com.example.breda_op_stap.logic;
 import android.content.Context;
 import com.example.breda_op_stap.data.Waypoint;
-import android.util.Log;
 
-import com.android.volley.Request;
 import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.breda_op_stap.logic.POIListener;
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -22,17 +15,16 @@ public class RouteParser
 {
     Context context;
     RequestQueue requestQueue;
-    POIListener listener;
 
-    public RouteParser(Context context, POIListener listener)
+    public RouteParser(Context context)
     {
         this.context = context;
         this.requestQueue = Volley.newRequestQueue(this.context);
-        this.listener = listener;
     }
 
     public String loadJSONFromAsset(String file)
     {
+
         String json = null;
         try
         {
@@ -49,10 +41,12 @@ public class RouteParser
             e.printStackTrace();
             return null;
         }
+
         return json;
     }
 
     public ArrayList<Waypoint> parseFile(String JSONstring) {
+
         ArrayList<Waypoint> waypoints = new ArrayList<>();
         try {
             JSONArray obj = new JSONArray(JSONstring);
