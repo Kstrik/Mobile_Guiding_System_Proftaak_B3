@@ -147,28 +147,6 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     {
         if(this.googleMap != null)
         {
-//            boolean waypointsInRange = false;
-//            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(new LatLng(location.getLatitude(), location.getLongitude())));
-//            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 50));
-//            for(Waypoint waypoint : this.waypointMarkers.values())
-//            {
-//                if(getDistance(new LatLng(location.getLatitude(), location.getLongitude()), waypoint.getLocation()) < 100)
-//                {
-//                    waypointsInRange = true;
-//                    if(this.withinRange == null || !waypoint.getName().equals(this.withinRange.getName()))
-//                    {
-//                        this.withinRange = waypoint;
-//                        Log.d("locationUpdate", this.withinRange.hashCode() + " : " + waypoint.hashCode());
-//                        //Toast.makeText(this, waypoint.getName() + " : within 100 meters!", Toast.LENGTH_LONG).show();
-//                        this.notification.encounteredWaypointNotifier(waypoint.getName(), waypoint.getDescription());
-//                        return;
-//                    }
-//                }
-//            }
-//
-//            if(this.withinRange != null && !waypointsInRange)
-//                this.withinRange = null;
-
             Waypoint closestWaypoint = null;
             double closestDistance = 0;
 
