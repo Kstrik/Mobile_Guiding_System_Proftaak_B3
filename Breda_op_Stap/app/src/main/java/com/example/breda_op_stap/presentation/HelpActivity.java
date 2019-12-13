@@ -5,10 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.breda_op_stap.R;
 
-public class HelpActivity extends AppCompatActivity {
-
+public class HelpActivity extends AppCompatActivity
+{
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_help);
     }

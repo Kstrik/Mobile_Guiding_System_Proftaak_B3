@@ -8,11 +8,11 @@ import android.widget.TextView;
 import com.example.breda_op_stap.R;
 import com.example.breda_op_stap.data.Waypoint;
 
-public class DetailedActivity extends AppCompatActivity {
-
+public class DetailedActivity extends AppCompatActivity
+{
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detailed);
 
