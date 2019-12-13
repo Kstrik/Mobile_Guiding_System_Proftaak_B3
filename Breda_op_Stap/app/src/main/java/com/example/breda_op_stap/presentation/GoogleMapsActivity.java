@@ -176,7 +176,6 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         if(hasLocationAccess()) {
             this.googleMap.setMyLocationEnabled(true);
         }
-        //this.googleMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
         this.googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener()
         {
@@ -188,45 +187,13 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
             }
         });
 
-//        //--------TEST DATA--------
-//        ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
-//        for(int i = 0; i < 10; i++)
-//            waypoints.add(new Waypoint("Test" + i, new LatLng(i, 10), "Test", new ArrayList<String>(), (i >= 9 && i <= 9), (i >= 2 && i <= 4), (i >= 5 && i <= 8)));
-//        displayRoute(waypoints);
-//        //-------------------------
         RouteParser routeParser = new RouteParser(this);
         displayRoute(routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute")));
     }
 
     public void displayRoute(ArrayList<Waypoint> waypoints)
     {
-        if(waypoints != null && waypoints.size() != 0)
-        {
-            this.waypointMarkers.clear();
-            this.googleMap.clear();
-            PolylineOptions polylineOptions = new PolylineOptions().clickable(false);
-
-            for(Waypoint waypoint : waypoints)
-            {
-                if(!waypoint.isHidden())
-                {
-                    MarkerOptions markerOptions = new MarkerOptions().position(waypoint.getLocation()).title(waypoint.getName());
-                    if(waypoint.isVisited())
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                    if(waypoint.isFavorite())
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
-                    Marker marker = this.googleMap.addMarker(markerOptions);
-                    this.waypointMarkers.put(marker, waypoint);
-                }
-                //marker.setTag(0);
-                polylineOptions.add(waypoint.getLocation());
-            }
-
-            this.googleMap.addPolyline(polylineOptions);
-            this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(waypoints.get(0).getLocation()));
-            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(waypoints.get(0).getLocation(), 50));
-        }
+        this.directionsAPIManager.requestRoute(waypoints);
     }
 
     public void addWaypoint(Waypoint waypoint)
@@ -357,7 +324,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                 }
             }
 
-            Polyline polyline = this.googleMap.addPolyline(new PolylineOptions().clickable(false).addAll(locations));
+            this.googleMap.addPolyline(new PolylineOptions().clickable(false).addAll(locations));
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(waypoints.get(0).getLocation()));
             //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(waypoints.get(0).getLocation(), 50));
         }
