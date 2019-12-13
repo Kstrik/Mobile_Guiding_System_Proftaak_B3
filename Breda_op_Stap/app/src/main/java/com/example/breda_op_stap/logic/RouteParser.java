@@ -54,8 +54,8 @@ public class RouteParser
             {
                 String name = obj.getJSONObject(i).getString("name");
                 LatLng position = new LatLng(
-                        obj.getJSONObject(i).getJSONObject("coordinates").getInt("lat"),
-                        obj.getJSONObject(i).getJSONObject("coordinates").getInt("lng")
+                        obj.getJSONObject(i).getJSONObject("coordinates").getDouble("lat"),
+                        obj.getJSONObject(i).getJSONObject("coordinates").getDouble("lng")
                 );
                 String desc = obj.getJSONObject(i).getString("description");
                 ArrayList<String> images = new ArrayList<String>();

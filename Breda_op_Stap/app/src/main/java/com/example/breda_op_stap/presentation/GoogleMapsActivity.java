@@ -33,6 +33,8 @@ import android.widget.Toast;
 
 import com.example.breda_op_stap.R;
 import com.example.breda_op_stap.data.Waypoint;
+import com.example.breda_op_stap.logic.DirectionsAPIListener;
+import com.example.breda_op_stap.logic.DirectionsAPIManager;
 import com.example.breda_op_stap.logic.Notification;
 import com.example.breda_op_stap.logic.RouteParser;
 import com.google.android.gms.common.api.ResultCallback;
@@ -64,7 +66,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
-public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback, MenuFragment.OnFragmentInteractionListener
+public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback, MenuFragment.OnFragmentInteractionListener, DirectionsAPIListener
 {
     private GoogleMap googleMap;
     private FusedLocationProviderClient fushedLocationProviderClient;
@@ -72,6 +74,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     private LocationCallback locationCallback;
     //private ArrayList<Marker> markers;
+    private ArrayList<Waypoint> waypoints;
     private HashMap<Marker, Waypoint> waypointMarkers;
 
     private EditText txb_Search;
@@ -80,6 +83,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     private Waypoint withinRange;
 
     private Notification notification;
+    private DirectionsAPIManager directionsAPIManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -88,6 +92,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         setContentView(R.layout.activity_google_maps);
 
         //this.markers = new ArrayList<Marker>();
+        this.waypoints = new ArrayList<Waypoint>();
         this.waypointMarkers = new HashMap<Marker, Waypoint>();
         this.txb_Search = (EditText)findViewById(R.id.txb_SearchMarker);
         this.menuFragment = findViewById(R.id.menuFragment);
@@ -95,6 +100,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         this.menuFragment.setVisibility(View.INVISIBLE);
 
         this.notification = new Notification(this);
+        this.directionsAPIManager = new DirectionsAPIManager(this, this);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -207,43 +213,19 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
             }
         });
 
-        //--------TEST DATA--------
-        ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
-        for(int i = 0; i < 10; i++)
-            waypoints.add(new Waypoint("Test" + i, new LatLng(i, 10), "Test", new ArrayList<String>(), (i >= 9 && i <= 9), (i >= 2 && i <= 4), (i >= 5 && i <= 8)));
-        displayRoute(waypoints);
-        //-------------------------
+//        //--------TEST DATA--------
+//        ArrayList<Waypoint> waypoints = new ArrayList<Waypoint>();
+//        for(int i = 0; i < 10; i++)
+//            waypoints.add(new Waypoint("Test" + i, new LatLng(i, 10), "Test", new ArrayList<String>(), (i >= 9 && i <= 9), (i >= 2 && i <= 4), (i >= 5 && i <= 8)));
+//        displayRoute(waypoints);
+//        //-------------------------
+        RouteParser routeParser = new RouteParser(this);
+        displayRoute(routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute")));
     }
 
     public void displayRoute(ArrayList<Waypoint> waypoints)
     {
-        if(waypoints != null && waypoints.size() != 0)
-        {
-            this.waypointMarkers.clear();
-            this.googleMap.clear();
-            PolylineOptions polylineOptions = new PolylineOptions().clickable(false);
-
-            for(Waypoint waypoint : waypoints)
-            {
-                if(!waypoint.isHidden())
-                {
-                    MarkerOptions markerOptions = new MarkerOptions().position(waypoint.getLocation()).title(waypoint.getName());
-                    if(waypoint.isVisited())
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
-                    if(waypoint.isFavorite())
-                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
-
-                    Marker marker = this.googleMap.addMarker(markerOptions);
-                    this.waypointMarkers.put(marker, waypoint);
-                }
-                //marker.setTag(0);
-                polylineOptions.add(waypoint.getLocation());
-            }
-
-            this.googleMap.addPolyline(polylineOptions);
-            this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(waypoints.get(0).getLocation()));
-            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(waypoints.get(0).getLocation(), 50));
-        }
+        this.directionsAPIManager.requestRoute(waypoints);
     }
 
     public void addWaypoint(Waypoint waypoint)
@@ -345,5 +327,36 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         double d = radius * c;
 
         return d;
+    }
+
+    @Override
+    public void onRouteAvailable(ArrayList<LatLng> locations, ArrayList<Waypoint> waypoints)
+    {
+        if(waypoints != null && waypoints.size() != 0)
+        {
+            this.waypoints.clear();
+            this.waypointMarkers.clear();
+            this.googleMap.clear();
+            this.waypoints.addAll(waypoints);
+
+            for(Waypoint waypoint : waypoints)
+            {
+                if(!waypoint.isHidden())
+                {
+                    MarkerOptions markerOptions = new MarkerOptions().position(waypoint.getLocation()).title(waypoint.getName());
+                    if(waypoint.isVisited())
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE));
+                    if(waypoint.isFavorite())
+                        markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+
+                    Marker marker = this.googleMap.addMarker(markerOptions);
+                    this.waypointMarkers.put(marker, waypoint);
+                }
+            }
+
+            this.googleMap.addPolyline(new PolylineOptions().clickable(false).addAll(locations));
+            this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(waypoints.get(0).getLocation()));
+            //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(waypoints.get(0).getLocation(), 50));
+        }
     }
 }
