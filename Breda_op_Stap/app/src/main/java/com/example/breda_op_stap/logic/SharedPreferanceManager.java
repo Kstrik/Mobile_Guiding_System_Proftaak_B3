@@ -5,7 +5,8 @@ import android.content.SharedPreferences;
 
 import com.example.breda_op_stap.data.Waypoint;
 
-public class SharedPreferanceManager {
+public class SharedPreferanceManager
+{
     public static final String SHARED_PREFS = "shared_prefs";
     private static SharedPreferanceManager insance;
     public Context context;
@@ -17,8 +18,9 @@ public class SharedPreferanceManager {
 
     public static SharedPreferanceManager getInstance(Context context)
     {
-        if (insance == null)
+        if (insance == null) {
             insance = new SharedPreferanceManager(context);
+        }
 
         return insance;
     }

@@ -6,13 +6,11 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.breda_op_stap.R;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,7 +61,8 @@ public class MenuFragment extends Fragment
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
+        if (getArguments() != null)
+        {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
@@ -79,7 +78,8 @@ public class MenuFragment extends Fragment
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri)
     {
-        if (mListener != null) {
+        if (mListener != null)
+        {
             mListener.onFragmentInteraction(uri);
         }
     }
@@ -99,7 +99,8 @@ public class MenuFragment extends Fragment
     }
 
     @Override
-    public void onDetach() {
+    public void onDetach()
+    {
         super.onDetach();
         mListener = null;
     }
@@ -114,7 +115,8 @@ public class MenuFragment extends Fragment
      * "http://developer.android.com/training/basics/fragments/communicating.html"
      * >Communicating with Other Fragments</a> for more information.
      */
-    public interface OnFragmentInteractionListener {
+    public interface OnFragmentInteractionListener
+    {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }

@@ -65,7 +65,6 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
         public POIViewHolder(@NonNull View itemView)
         {
             super(itemView);
-
             this.latitude = itemView.findViewById(R.id.poi_item_lat);
             this.longitude = itemView.findViewById(R.id.poi_item_long);
             this.name = itemView.findViewById(R.id.poi_item_name);
@@ -79,7 +78,6 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
             // TODO: // null should become DetailedActivity.class or different depending on the classname
             Intent intent = new Intent(view.getContext(), null);
             intent.putExtra("WAYPOINT", (Parcelable) this.getCurrentWaypoint());
-
             view.getContext().startActivity(intent);
         }
 

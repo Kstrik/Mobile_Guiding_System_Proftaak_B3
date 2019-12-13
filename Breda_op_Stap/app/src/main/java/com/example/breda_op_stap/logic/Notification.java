@@ -1,7 +1,8 @@
 package com.example.breda_op_stap.logic;
+
 /*
     Added on 13-12-2019 - Waylon
-    Usage: encounteredWaypointNotifier("Hart van Breda", "Eetcafe in het centrum.");
+    Usage: encounteredWaypointNotifier(title, description);
  */
 
 import android.app.NotificationChannel;
@@ -18,7 +19,6 @@ public class Notification
 {
     private String CHANNEL_ID = "Notification Channel";
     private NotificationManager notificationManager;
-
     private Context context;
 
     public Notification(Context context)
@@ -28,7 +28,8 @@ public class Notification
         notificationManager = this.context.getSystemService(NotificationManager.class);
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+        {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "channel", importance);
             // Register the channel with the system; you can't change the importance
@@ -48,7 +49,8 @@ public class Notification
                         .bigText(description))
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Toast.makeText(this.context, "Je bent nu in de buurt van: " + titel, Toast.LENGTH_SHORT).show();
+        //TODO: Implement a check to change between Toast and Notification
+        Toast.makeText(this.context, R.string.notification_close_by + titel, Toast.LENGTH_SHORT).show();
 
         // NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         // notificationId is a unique int for each notification that you must define

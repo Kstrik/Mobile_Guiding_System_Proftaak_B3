@@ -14,11 +14,11 @@ import com.example.breda_op_stap.logic.RouteParser;
 
 import java.util.ArrayList;
 
-public class POIActivity extends AppCompatActivity {
-
+public class POIActivity extends AppCompatActivity
+{
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_poi);
 

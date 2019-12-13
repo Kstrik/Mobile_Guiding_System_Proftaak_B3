@@ -2,8 +2,6 @@ package com.example.breda_op_stap.logic;
 
 import android.content.Context;
 import com.example.breda_op_stap.data.Waypoint;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
 import com.google.android.gms.maps.model.LatLng;
 import org.json.JSONArray;
 import org.json.JSONException;
