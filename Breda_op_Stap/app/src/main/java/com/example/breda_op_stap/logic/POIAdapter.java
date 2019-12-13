@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.breda_op_stap.R;
 import com.example.breda_op_stap.data.Waypoint;
+import com.example.breda_op_stap.presentation.DetailedActivity;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -75,8 +76,8 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
 
         private void onClick(View view)
         {
-            // TODO: // null should become DetailedActivity.class or different depending on the classname
-            Intent intent = new Intent(view.getContext(), null);
+
+            Intent intent = new Intent(view.getContext(), DetailedActivity.class);
             intent.putExtra("WAYPOINT", (Parcelable) this.getCurrentWaypoint());
             view.getContext().startActivity(intent);
         }

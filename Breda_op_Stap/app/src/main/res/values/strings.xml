@@ -15,6 +15,9 @@
     You\'ll never shine if you don\'t glow</string>
     <string name="poiTitle">Title</string>
     <string name="appinfo">Info</string>
+    <string name="routesTitle"> Routes</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
     <string name="favorites">Favorites</string>
     <string name="premissions_location_denied">Permission denied, enable location to use the full app!</string>
     <string name="marker_search_hint">Searching...</string>
