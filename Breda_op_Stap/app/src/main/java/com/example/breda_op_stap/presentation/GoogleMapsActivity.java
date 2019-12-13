@@ -319,7 +319,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     public void onInfoClick(View view)
     {
         //TODO uncomment when HelpActivity is added
-        //startActivity(new Intent(this, HelpActivity.class));
+        startActivity(new Intent(this, HelpActivity.class));
     }
 
     //Returns between two point in meters
