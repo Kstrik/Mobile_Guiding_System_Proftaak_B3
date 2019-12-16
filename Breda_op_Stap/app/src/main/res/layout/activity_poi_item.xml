@@ -5,15 +5,21 @@
     android:id="@+id/poi_item_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="20dp"
     tools:context=".presentation.POIActivity">
 
     <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/poi_item_guideline"
+        android:id="@+id/poi_item_guideline1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.35" />
+        app:layout_constraintGuide_percent="0.33" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/poi_item_guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8515815" />
 
     <ImageView
         android:id="@+id/poi_item_image"
@@ -24,7 +30,7 @@
         android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintEnd_toStartOf="@+id/poi_item_guideline"
+        app:layout_constraintEnd_toStartOf="@+id/poi_item_guideline1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:srcCompat="@tools:sample/avatars[0]" />
@@ -34,12 +40,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
         android:text="Latitude:"
         app:layout_constraintBottom_toTopOf="@+id/poi_item_long_text"
         app:layout_constraintEnd_toStartOf="@+id/poi_item_lat"
-        app:layout_constraintStart_toStartOf="@+id/poi_item_guideline"
+        app:layout_constraintStart_toStartOf="@+id/poi_item_guideline1"
         app:layout_constraintTop_toBottomOf="@+id/poi_item_name_text" />
 
     <TextView
@@ -48,11 +53,10 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/poi_item_long"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/poi_item_guideline2"
         app:layout_constraintStart_toEndOf="@+id/poi_item_lat_text"
         app:layout_constraintTop_toBottomOf="@+id/poi_item_name" />
 
@@ -60,11 +64,10 @@
         android:id="@+id/poi_item_long_text"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="8dp"
         android:text="Longitude:"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/poi_item_long"
-        app:layout_constraintStart_toStartOf="@+id/poi_item_guideline"
+        app:layout_constraintStart_toStartOf="@+id/poi_item_guideline1"
         app:layout_constraintTop_toBottomOf="@+id/poi_item_lat_text" />
 
     <TextView
@@ -72,10 +75,9 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/poi_item_guideline2"
         app:layout_constraintStart_toEndOf="@+id/poi_item_long_text"
         app:layout_constraintTop_toBottomOf="@+id/poi_item_lat" />
 
@@ -84,11 +86,10 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="8dp"
         android:text="Name:"
         app:layout_constraintBottom_toTopOf="@+id/poi_item_lat_text"
         app:layout_constraintEnd_toStartOf="@+id/poi_item_name"
-        app:layout_constraintStart_toStartOf="@+id/poi_item_guideline"
+        app:layout_constraintStart_toStartOf="@+id/poi_item_guideline1"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -97,11 +98,39 @@
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/poi_item_lat"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/poi_item_guideline2"
         app:layout_constraintStart_toEndOf="@+id/poi_item_name_text"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/poi_item_fav"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/poi_item_hidden"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/poi_item_guideline2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_star_black_24dp" />
+
+    <ImageView
+        android:id="@+id/poi_item_hidden"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/poi_item_guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/poi_item_fav"
+        app:srcCompat="@drawable/ic_visibility_black_24dp" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

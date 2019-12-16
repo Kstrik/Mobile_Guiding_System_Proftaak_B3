@@ -23,10 +23,17 @@ public class POIActivity extends AppCompatActivity
         setContentView(R.layout.activity_poi);
 
         RouteParser routeParser = new RouteParser(getApplicationContext());
-        ArrayList<Waypoint> waypoints = routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"));
+        ArrayList<Waypoint> unfilteredWaypoints = routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"));
+        ArrayList<Waypoint> waypoints = new ArrayList<>();
+
+        boolean fav = (Boolean) savedInstanceState.get("fav");
+
+        for (Waypoint waypoint : unfilteredWaypoints)
+            if (waypoint.isFavorite() || !fav)
+                waypoints.add(waypoint);
 
         RecyclerView recyclerView = findViewById(R.id.poi_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new POIAdapter(waypoints));
+        recyclerView.setAdapter(new POIAdapter(waypoints, fav));
     }
 }
