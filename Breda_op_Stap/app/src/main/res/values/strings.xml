@@ -14,4 +14,5 @@
     <string name="marker_search_empty">No point of interest name given!</string>
     <string name="language_not_supported">Language not supported!</string>
     <string name="notification_close_by">You are now near:</string>
+    <string name="notification_off_route">Your are leaving the route!</string>
 </resources>

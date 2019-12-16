@@ -96,8 +96,10 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
                     JSONObject startLocation = step.getJSONObject("start_location");
                     JSONObject endLocation = step.getJSONObject("end_location");
 
-                    locations.add(new LatLng(startLocation.getDouble("lat"), startLocation.getDouble("lng")));
-                    locations.add(new LatLng(endLocation.getDouble("lat"), endLocation.getDouble("lng")));
+                    LatLng lastLocation = (this.locations.size() != 0) ? (this.locations.get(this.locations.size() - 1)) : null;
+                    if(lastLocation == null)
+                        this.locations.add(new LatLng(startLocation.getDouble("lat"), startLocation.getDouble("lng")));
+                    this.locations.add(new LatLng(endLocation.getDouble("lat"), endLocation.getDouble("lng")));
                 }
 
                 this.currentWaypointIndex++;

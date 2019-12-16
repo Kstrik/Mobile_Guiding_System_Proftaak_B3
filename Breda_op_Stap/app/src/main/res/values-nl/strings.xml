@@ -14,4 +14,5 @@
     <string name="marker_search_empty">Geen point of interest naam gegeven!</string>
     <string name="language_not_supported">Uw gekozen taal wordt niet ondersteund!</string>
     <string name="notification_close_by">Je bent nu in de buurt van:</string>
+    <string name="notification_off_route">Je bent de route aan het verlaten!</string>
 </resources>

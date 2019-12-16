@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.Pair;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -162,6 +163,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                 {
                     closestWaypoint = waypoint;
                     closestDistance = distance;
+                    waypoint.setIsVisited(true);
                 }
             }
 
@@ -170,18 +172,38 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
             this.withinRange = closestWaypoint;
 
-            //Test code
             if(this.polyline != null)
             {
-                LatLng closestPointOnPolyline = closedPointOnPolyline(new LatLng(location.getLatitude(), location.getLongitude()), this.polyline);
+                LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
+                //LatLng closestPointOnPolyline = closestPointOnPolyline(new LatLng(location.getLatitude(), location.getLongitude()), this.polyline);
 
                 if(this.walkedRoute != null)
                     this.walkedRoute.remove();
 
-                ArrayList<LatLng> test = getLocationsBefore(closestPointOnPolyline);
-                PolylineOptions polylineOptions = new PolylineOptions().clickable(false).addAll(test);
+                //ArrayList<LatLng> locationsBefore = getLocationsBefore(closestPointOnPolyline);
+
+                //Pair<LatLng, LatLng> pathSegment = getCurrentPathSegment();
+                //ArrayList<LatLng> locationsBetween = getLocationsBetween(pathSegment.first, pathSegment.second);
+                Pair<LatLng, LatLng> closestLine = getClosestLine(this.locations, currentLocation);
+                ArrayList<LatLng> locationsBefore = getLocationsBefore(closestLine.first);
+
+                //LatLng closestPointOnLine = projectPoint(locationsBefore.get(locationsBefore.size() - 2), locationsBefore.get(locationsBefore.size() - 1), new LatLng(location.getLatitude(), location.getLongitude()));
+                LatLng closestPointOnLine = projectPoint(closestLine.first, closestLine.second, currentLocation);
+
+//                locationsBefore.remove(locationsBefore.size() - 1);
+//                locationsBefore.add(closestPointOnLine);
+//                PolylineOptions polylineOptions = new PolylineOptions().clickable(false).addAll(locationsBefore);
+//                polylineOptions.color(getResources().getColor(R.color.colorAccent)).width(20);
+//                this.walkedRoute = this.googleMap.addPolyline(polylineOptions);
+
+                //locationsBefore.remove(locationsBefore.size() - 1);
+                locationsBefore.add(closestPointOnLine);
+                PolylineOptions polylineOptions = new PolylineOptions().clickable(false).addAll(locationsBefore);
                 polylineOptions.color(getResources().getColor(R.color.colorAccent)).width(20);
                 this.walkedRoute = this.googleMap.addPolyline(polylineOptions);
+
+                if(getDistance(currentLocation, closestPointOnLine) > 10)
+                    Toast.makeText(this, R.string.notification_off_route, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -337,6 +359,26 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         return locationsBefore;
     }
 
+    private Pair<LatLng, LatLng> getClosestLine(ArrayList<LatLng> pathSegment, LatLng point)
+    {
+        Pair<LatLng, LatLng> closestLine = new Pair<LatLng, LatLng>(new LatLng(0, 0), new LatLng(0, 0));
+        double closestDistance = 999999999;
+
+        for(int i = 0; i <= pathSegment.size() - 2; i++)
+        {
+            LatLng projectedPoint = projectPoint(pathSegment.get(i), pathSegment.get(i + 1), point);
+            double distance = getDistance(point, projectedPoint);
+
+            if(isPointOnLine(pathSegment.get(i), pathSegment.get(i + 1), projectedPoint) && distance < closestDistance)
+            {
+                closestLine = new Pair<LatLng, LatLng>(pathSegment.get(i), pathSegment.get(i + 1));
+                closestDistance = distance;
+            }
+        }
+
+        return closestLine;
+    }
+
     //Returns distance between two points in meters
     private double getDistance(LatLng pointA, LatLng pointB)
     {
@@ -356,7 +398,8 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         return d;
     }
 
-    private LatLng closedPointOnPolyline(LatLng point, Polyline polyline)
+    //Returns the LatLng point of a polyline that is closest to a point
+    private LatLng closestPointOnPolyline(LatLng point, Polyline polyline)
     {
         double lat = point.latitude;
         double lng = point.longitude;
@@ -381,5 +424,27 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
             }
         }
         return closest;
+    }
+
+    //Returns the point projected on the line (Only works with short distances as it is a function that is used in a 2D coordinate system (X, Y) and not (Latitude, Longitude))
+    private LatLng projectPoint(LatLng pointA, LatLng pointB, LatLng point)
+    {
+        double m = (double)(pointB.longitude - pointA.longitude) / (pointB.latitude - pointA.latitude);
+        double b = (double)pointA.longitude - (m * pointA.latitude);
+
+        double x = (m * point.longitude + point.latitude - m * b) / (m * m + 1);
+        double y = (m * m * point.longitude + m * point.latitude + b) / (m * m + 1);
+
+        return new LatLng(x, y);
+    }
+
+    private boolean isPointOnLine(LatLng pointA, LatLng pointB, LatLng point)
+    {
+        double distanceAP = getDistance(pointA, point);
+        double distanceBP = getDistance(pointB, point);
+        double distanceAB = getDistance(pointA, pointB);
+
+        double distanceAPBP = distanceAP + distanceBP;
+        return distanceAPBP > distanceAB - 1 &&  distanceAPBP < distanceAB + 1;
     }
 }
