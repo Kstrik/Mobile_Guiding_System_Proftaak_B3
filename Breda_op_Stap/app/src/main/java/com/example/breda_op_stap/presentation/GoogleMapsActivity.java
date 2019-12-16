@@ -175,28 +175,15 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
             if(this.polyline != null)
             {
                 LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                //LatLng closestPointOnPolyline = closestPointOnPolyline(new LatLng(location.getLatitude(), location.getLongitude()), this.polyline);
 
                 if(this.walkedRoute != null)
                     this.walkedRoute.remove();
 
-                //ArrayList<LatLng> locationsBefore = getLocationsBefore(closestPointOnPolyline);
-
-                //Pair<LatLng, LatLng> pathSegment = getCurrentPathSegment();
-                //ArrayList<LatLng> locationsBetween = getLocationsBetween(pathSegment.first, pathSegment.second);
                 Pair<LatLng, LatLng> closestLine = getClosestLine(this.locations, currentLocation);
                 ArrayList<LatLng> locationsBefore = getLocationsBefore(closestLine.first);
 
-                //LatLng closestPointOnLine = projectPoint(locationsBefore.get(locationsBefore.size() - 2), locationsBefore.get(locationsBefore.size() - 1), new LatLng(location.getLatitude(), location.getLongitude()));
                 LatLng closestPointOnLine = projectPoint(closestLine.first, closestLine.second, currentLocation);
 
-//                locationsBefore.remove(locationsBefore.size() - 1);
-//                locationsBefore.add(closestPointOnLine);
-//                PolylineOptions polylineOptions = new PolylineOptions().clickable(false).addAll(locationsBefore);
-//                polylineOptions.color(getResources().getColor(R.color.colorAccent)).width(20);
-//                this.walkedRoute = this.googleMap.addPolyline(polylineOptions);
-
-                //locationsBefore.remove(locationsBefore.size() - 1);
                 locationsBefore.add(closestPointOnLine);
                 PolylineOptions polylineOptions = new PolylineOptions().clickable(false).addAll(locationsBefore);
                 polylineOptions.color(getResources().getColor(R.color.colorAccent)).width(20);
