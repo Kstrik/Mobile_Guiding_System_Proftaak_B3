@@ -7,5 +7,5 @@ import java.util.ArrayList;
 
 public interface DirectionsAPIListener
 {
-    void onRouteAvailable(ArrayList<LatLng> locations, ArrayList<Waypoint> waypoints);
+    void onRouteAvailable(ArrayList<LatLng> locations, ArrayList<Waypoint> waypoints, LatLng northEastBoundry, LatLng southWestBoundry);
 }

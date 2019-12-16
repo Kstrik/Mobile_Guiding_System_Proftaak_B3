@@ -37,6 +37,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
@@ -300,7 +301,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
     }
 
     @Override
-    public void onRouteAvailable(ArrayList<LatLng> locations, ArrayList<Waypoint> waypoints)
+    public void onRouteAvailable(ArrayList<LatLng> locations, ArrayList<Waypoint> waypoints, LatLng northEastBoundry, LatLng southWestBoundry)
     {
         if(waypoints != null && waypoints.size() != 0)
         {
@@ -329,6 +330,9 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
             this.polyline = this.googleMap.addPolyline(new PolylineOptions().clickable(false).addAll(locations));
             this.googleMap.moveCamera(CameraUpdateFactory.newLatLng(waypoints.get(0).getLocation()));
             //this.googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(waypoints.get(0).getLocation(), 50));
+
+            this.googleMap.setLatLngBoundsForCameraTarget(new LatLngBounds(southWestBoundry, northEastBoundry));
+            this.googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(new LatLngBounds(southWestBoundry, northEastBoundry), 100));
         }
     }
 

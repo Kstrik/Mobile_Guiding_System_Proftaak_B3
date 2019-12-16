@@ -30,6 +30,9 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
     private ArrayList<LatLng> locations;
     private int currentWaypointIndex;
 
+    private LatLng northEastBoundry;
+    private LatLng southWestBoundry;
+
     private DirectionsAPIListener directionsAPIListener;
 
     public DirectionsAPIManager(Context context, DirectionsAPIListener directionsAPIListener)
@@ -86,6 +89,12 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
             {
                 JSONArray routes = jsonObject.getJSONArray("routes");
                 JSONObject bounds = routes.getJSONObject(0).getJSONObject("bounds");
+
+                JSONObject northEast = bounds.getJSONObject("northeast");
+                JSONObject southWest = bounds.getJSONObject("southwest");
+                LatLng northEastBound = new LatLng(northEast.getDouble("lat"), northEast.getDouble("lng"));
+                LatLng southWestBound = new LatLng(southWest.getDouble("lat"), southWest.getDouble("lng"));
+
                 JSONArray legs = routes.getJSONObject(0).getJSONArray("legs");
                 JSONObject leg = legs.getJSONObject(0);
                 JSONArray steps = leg.getJSONArray("steps");
@@ -102,10 +111,23 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
                     this.locations.add(new LatLng(endLocation.getDouble("lat"), endLocation.getDouble("lng")));
                 }
 
+                if(this.currentWaypointIndex == 0)
+                {
+                    this.northEastBoundry = northEastBound;
+                    this.southWestBoundry = southWestBound;
+                }
+                else
+                {
+                    if(northEastBound.latitude > this.northEastBoundry.latitude || northEastBound.longitude < this.northEastBoundry.longitude)
+                        this.northEastBoundry = northEastBound;
+                    if(southWestBound.latitude > this.southWestBoundry.latitude || southWestBound.longitude < this.southWestBoundry.longitude)
+                        this.southWestBoundry = southWestBound;
+                }
+
                 this.currentWaypointIndex++;
 
                 if(this.currentWaypointIndex == this.waypoints.size() - 1)
-                    this.directionsAPIListener.onRouteAvailable(this.locations, this.waypoints);
+                    this.directionsAPIListener.onRouteAvailable(this.locations, this.waypoints, this.northEastBoundry, this.southWestBoundry);
                 else
                     sendRequest(Request.Method.GET, getUrlForWaypoints(this.waypoints.get(this.currentWaypointIndex), this.waypoints.get(this.currentWaypointIndex + 1)));
             }
