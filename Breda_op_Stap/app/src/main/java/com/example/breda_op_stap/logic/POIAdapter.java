@@ -45,14 +45,15 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
         holder.longitude.setText(Double.toString(waypoint.getLocation().longitude));
         holder.name.setText(waypoint.getName());
 
-        File file = new File(waypoint.getImages().get(0));
-        Bitmap bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-        holder.image.setImageBitmap(bitmap);
+        String path = "@drawable/" + waypoint.getImages().get(0);
+        int res = holder.itemView.getResources().getIdentifier(path, null, holder.itemView.getContext().getPackageName());
+        holder.image.setImageResource(res);
     }
 
     @Override
     public int getItemCount()
     {
+
         return this.waypoints.size();
     }
 
