@@ -4,7 +4,7 @@
     <string name="verhaal">Beschrijving</string>
     <string name="poiTitle">Title</string>
     <string name="appinfo">Info</string>
-    <string name="routesTitle"> Routes</string>
+    <string name="overviewTitle">Overview</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="favorites">Favorites</string>
@@ -15,4 +15,5 @@
     <string name="language_not_supported">Language not supported!</string>
     <string name="notification_close_by">You are now near:</string>
     <string name="notification_off_route">You are leaving the route!</string>
+    <string name="help_description">The application is meant to help give you a nice impression of Breda. This is done by following a route that shows the nicest sights of Breda. From the start there already is a route selected for you to walk. To show all the sights on the route, you need to op the side menu by tapping on the icon in the upper left corner of the screen and then tap on “Overview”. Here you can scroll through all the sights of the route. To select you favorite sight you can tap on the star to the right side of the sight you want to favorite. To only show favorites the option “Favorites” has to be chosen instead of “Overview” in the side menu. If you would like to change the language, than you can do that by selecting on of the flags in the side menu. By doing this the language on the app will change to your selected choice.</string>
 </resources>

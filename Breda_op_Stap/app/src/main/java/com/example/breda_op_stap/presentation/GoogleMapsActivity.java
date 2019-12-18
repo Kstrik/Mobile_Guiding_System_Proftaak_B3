@@ -24,7 +24,6 @@ import com.example.breda_op_stap.R;
 import com.example.breda_op_stap.data.Waypoint;
 import com.example.breda_op_stap.logic.DirectionsAPIListener;
 import com.example.breda_op_stap.logic.DirectionsAPIManager;
-import com.example.breda_op_stap.logic.Notification;
 import com.example.breda_op_stap.logic.RouteParser;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -272,7 +271,12 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     public void onFavoritesClick(View view)
     {
-        startActivity(new Intent(this, POIActivity.class));
+        startActivity(new Intent(this, POIActivity.class).putExtra("favorites", true));
+    }
+
+    public void onOverviewClick(View view)
+    {
+        startActivity(new Intent(this, POIActivity.class).putExtra("favorites", false));
     }
 
     public void onLanguageClick(View view)

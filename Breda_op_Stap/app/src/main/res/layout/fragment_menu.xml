@@ -139,7 +139,7 @@
         </androidx.cardview.widget.CardView>
 
         <androidx.cardview.widget.CardView
-            android:id="@+id/routeCardView"
+            android:id="@+id/overviewCardView"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:background="@color/cardview_shadow_start_color"
@@ -150,7 +150,8 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="#20000000">
+                android:background="#20000000"
+                android:onClick="onOverviewClick">
 
                 <ImageView
                     android:id="@+id/imageView"
@@ -165,7 +166,7 @@
                     android:id="@+id/textView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/routesTitle"
+                    android:text="@string/overviewTitle"
                     android:textAlignment="center"
                     android:textSize="18sp"
                     android:textStyle="bold"
@@ -175,6 +176,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

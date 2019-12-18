@@ -4,7 +4,7 @@
     <string name="verhaal">Description</string>
     <string name="poiTitle">Titel</string>
     <string name="appinfo">Info</string>
-    <string name="routesTitle"> Routes</string>
+    <string name="overviewTitle">Overzicht</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="favorites">Favorieten</string>
@@ -15,5 +15,5 @@
     <string name="language_not_supported">Uw gekozen taal wordt niet ondersteund!</string>
     <string name="notification_close_by">Je bent nu in de buurt van:</string>
     <string name="notification_off_route">Je bent de route aan het verlaten!</string>
-    <string name="help_beschrijving">De applicatie is gemaakt om u te helpen om een prettige indruk te geven van Breda. Dit wordt gedaan door middel van het volgen van een route die de mooiste bezienswaardigheden laat zien in Breda. Er is van te voren al een gekozen route geselecteerd. Om de bezienswaardigheden op deze route te zien, klikt u op het tabje ‘INVULLEN’. Hier kunt u door alle bezienswaardigheden scrollen. Vervolgens kunt u uw favoriete bezienswaardigheden kiezen door op het sterretje te klikken. Deze zijn terug te vinden onder het menu bij ‘Favorieten’. Mocht u van taal willen veranderen, kunt u op de vlag klikken van de taal die uw voorkeur heeft. Hierdoor zal alles veranderen in de taal van de vlag die u gekozen hebt.  </string>
+    <string name="help_description">De applicatie is gemaakt om u te helpen om een prettige indruk te geven van Breda. Dit wordt gedaan door middel van het volgen van een route die de mooiste bezienswaardigheden laat zien in Breda. Er is van te voren al een gekozen route geselecteerd. Om de bezienswaardigheden op deze route te zien, klikt u op het tabje "Overzicht". Hier kunt u door alle bezienswaardigheden scrollen. Vervolgens kunt u uw favoriete bezienswaardigheden kiezen door op het sterretje te klikken. Deze zijn terug te vinden onder het menu bij "Favorieten". Mocht u van taal willen veranderen, kunt u op de vlag klikken van de taal die uw voorkeur heeft. Hierdoor zal alles veranderen in de taal van de vlag die u gekozen hebt.</string>
 </resources>

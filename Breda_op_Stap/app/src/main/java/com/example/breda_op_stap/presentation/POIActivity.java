@@ -26,7 +26,7 @@ public class POIActivity extends AppCompatActivity
         ArrayList<Waypoint> unfilteredWaypoints = routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"));
         ArrayList<Waypoint> waypoints = new ArrayList<>();
 
-        boolean fav = (Boolean) savedInstanceState.get("fav");
+        boolean fav = getIntent().getBooleanExtra("favorites", false);
 
         for (Waypoint waypoint : unfilteredWaypoints)
             if (waypoint.isFavorite() || !fav)
