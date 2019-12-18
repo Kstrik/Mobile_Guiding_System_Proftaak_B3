@@ -1,0 +1,36 @@
+[
+  {
+    "RouteID" : 1,
+    "name" : "Test1",
+    "coordinates":
+    {
+      "lat" : 50.48,
+      "lng" : 4.5
+    },
+    "description" : "Test1 description",
+    "images" :
+    [
+      "picture1", "picture2"
+    ],
+    "isVisited" : false,
+    "isFavorite" : false,
+    "isHidden" : false
+  },
+  {
+    "RouteID" : 2,
+    "name" : "Test2",
+    "coordinates":
+    {
+      "lat" : 51.86,
+      "lng" : 4.6
+    },
+    "description" : "Test2 description",
+    "images" :
+    [
+      "picture3"
+    ],
+    "isVisited" : false,
+    "isFavorite" : false,
+    "isHidden" : false
+  }
+]
