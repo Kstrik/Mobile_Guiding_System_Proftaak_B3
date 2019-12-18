@@ -45,10 +45,11 @@ import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCallback, MenuFragment.OnFragmentInteractionListener, DirectionsAPIListener
 {
-    private GoogleMap googleMap;
+    public GoogleMap googleMap;
 
     private FusedLocationProviderClient fushedLocationProviderClient;
     private LocationCallback locationCallback;
@@ -169,7 +170,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
             }
 
             if(closestWaypoint != null && (this.withinRange == null || !this.withinRange.getName().equals(closestWaypoint.getName())))
-                this.notification.encounteredWaypointNotifier(closestWaypoint.getName(), closestWaypoint.getDescription());
+                this.notification.notifyWaypointEncounter(closestWaypoint.getName(), closestWaypoint.getDescription());
 
             this.withinRange = closestWaypoint;
 
@@ -190,8 +191,10 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                 polylineOptions.color(getResources().getColor(R.color.colorAccent)).width(20);
                 this.walkedRoute = this.googleMap.addPolyline(polylineOptions);
 
+//                if(getDistance(currentLocation, closestPointOnLine) > 10)
+//                    Toast.makeText(this, R.string.notification_off_route, Toast.LENGTH_LONG).show();
                 if(getDistance(currentLocation, closestPointOnLine) > 10)
-                    Toast.makeText(this, R.string.notification_off_route, Toast.LENGTH_LONG).show();
+                    this.notification.notifyOffRoute();
             }
         }
     }
@@ -274,17 +277,12 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
 
     public void onLanguageClick(View view)
     {
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-
         switch(view.getTag().toString())
         {
             case "nl":
             case "us":
             {
-                //conf.setLocale(new Locale(view.getTag().toString().toLowerCase()));
-                //res.updateConfiguration(conf, dm);
+                changeLanguage(view.getTag().toString().toLowerCase());
                 break;
             }
             default:
@@ -293,6 +291,16 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
                 break;
             }
         }
+    }
+
+    public void changeLanguage(String landcode)
+    {
+        Resources res = getApplicationContext().getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.setLocale(new Locale(landcode));
+        res.updateConfiguration(conf, dm);
+        recreate();
     }
 
     public void onInfoClick(View view)

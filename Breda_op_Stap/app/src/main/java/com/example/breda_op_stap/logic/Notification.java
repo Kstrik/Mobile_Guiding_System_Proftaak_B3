@@ -39,7 +39,7 @@ public class Notification
         }
     }
 
-    public void encounteredWaypointNotifier (String titel, String description)
+    public void notifyWaypointEncounter(String titel, String description)
     {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_ID);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)
@@ -54,6 +54,21 @@ public class Notification
 
         // NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
         // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(1, builder.build());
+    }
+
+    public void notifyOffRoute()
+    {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle("Off route")
+                .setContentText(this.context.getResources().getString(R.string.notification_off_route))
+                .setStyle(new NotificationCompat.BigTextStyle()
+                        .bigText(this.context.getResources().getString(R.string.notification_off_route)))
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        Toast.makeText(this.context, this.context.getResources().getString(R.string.notification_off_route), Toast.LENGTH_SHORT).show();
+
         notificationManager.notify(1, builder.build());
     }
 }
