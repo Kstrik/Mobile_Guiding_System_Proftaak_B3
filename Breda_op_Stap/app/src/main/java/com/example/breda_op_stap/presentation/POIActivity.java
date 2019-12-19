@@ -1,6 +1,7 @@
 package com.example.breda_op_stap.presentation;
 
 import android.os.Bundle;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -31,6 +32,9 @@ public class POIActivity extends AppCompatActivity
         for (Waypoint waypoint : unfilteredWaypoints)
             if (waypoint.isFavorite() || !fav)
                 waypoints.add(waypoint);
+
+        if (fav)
+            ((TextView)findViewById(R.id.poi_title)).setText(getResources().getString(R.string.favoritesTitle));
 
         RecyclerView recyclerView = findViewById(R.id.poi_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

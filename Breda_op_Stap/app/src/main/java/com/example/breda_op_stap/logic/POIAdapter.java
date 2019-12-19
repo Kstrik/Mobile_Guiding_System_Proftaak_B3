@@ -43,7 +43,6 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
     @Override
     public void onBindViewHolder(@NonNull POIViewHolder holder, int position)
     {
-
         Waypoint waypoint = this.waypoints.get(position);
         holder.latitude.setText(String.valueOf(waypoint.getLocation().latitude));
         holder.longitude.setText(String.valueOf(waypoint.getLocation().longitude));
@@ -56,20 +55,18 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
         if (!waypoint.isFavorite())
             holder.fav.setImageResource(R.drawable.ic_star_border_black_24dp);
 
-        if (!waypoint.isHidden())
+        if (waypoint.isHidden())
             holder.hidden.setImageResource(R.drawable.ic_visibility_off_black_24dp);
     }
 
     @Override
     public int getItemCount()
     {
-
         return this.waypoints.size();
     }
 
     class POIViewHolder extends RecyclerView.ViewHolder
     {
-
         TextView latitude;
         TextView longitude;
         TextView name;
@@ -80,7 +77,6 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
 
         public POIViewHolder(@NonNull View itemView)
         {
-
             super(itemView);
 
             this.latitude = itemView.findViewById(R.id.poi_item_lat);
@@ -97,23 +93,26 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
 
         private void onClickFav(View view)
         {
-
             Waypoint waypoint = this.getCurrentWaypoint();
             waypoint.setIsFavorite(!waypoint.isFavorite());
+            SharedPreferenceManager.getInstance(null).setIsFavourite(waypoint, waypoint.isFavorite());
 
-            if (favorite)
-                waypoints.remove(waypoint);
-
-            notifyDataSetChanged();
+            if (waypoint.isFavorite())
+                this.fav.setImageResource(R.drawable.ic_star_black_24dp);
+            else
+                this.fav.setImageResource(R.drawable.ic_star_border_black_24dp);
         }
 
         private void onClickHidden(View view)
         {
-
             Waypoint waypoint = this.getCurrentWaypoint();
             waypoint.setIsHidden(!waypoint.isHidden());
+            SharedPreferenceManager.getInstance(null).setIsHidden(waypoint, waypoint.isHidden());
 
-            notifyDataSetChanged();
+            if (waypoint.isHidden())
+                this.hidden.setImageResource(R.drawable.ic_visibility_off_black_24dp);
+            else
+                this.hidden.setImageResource(R.drawable.ic_visibility_black_24dp);
         }
 
         private void onClick(View view)

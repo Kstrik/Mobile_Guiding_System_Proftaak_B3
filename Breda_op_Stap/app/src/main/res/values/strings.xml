@@ -5,6 +5,7 @@
     <string name="poiTitle">Title</string>
     <string name="appinfo">Info</string>
     <string name="overviewTitle">Overview</string>
+    <string name="favoritesTitle">Favorites</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="favorites">Favorites</string>
