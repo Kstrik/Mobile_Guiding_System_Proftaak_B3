@@ -65,7 +65,11 @@ public class RouteParser
                 boolean isFavorite = obj.getJSONObject(i).getBoolean("isFavorite");
                 boolean isHidden = obj.getJSONObject(i).getBoolean("isHidden");
 
-                waypoints.add(new Waypoint(name, position, desc, images, isVisited, isFavorite, isHidden));
+                Waypoint waypoint = (new Waypoint(name, position, desc, images, isVisited, isFavorite, isHidden));
+                SharedPreferenceManager sharedPreferenceManager = SharedPreferenceManager.getInstance(this.context);
+                waypoint.setIsFavorite(sharedPreferenceManager.getIsFavourite(waypoint));
+                waypoint.setIsHidden(sharedPreferenceManager.getIsHidden(waypoint));
+                waypoints.add(waypoint);
             }
         }
         catch (JSONException e)
