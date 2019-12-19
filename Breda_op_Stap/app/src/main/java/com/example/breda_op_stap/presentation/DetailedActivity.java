@@ -37,7 +37,7 @@ public class DetailedActivity extends AppCompatActivity
         title.setText(waypoint.getName());
         description.setText(waypoint.getDescription());
 
-        back.setOnClickListener(v -> startActivity(new Intent(DetailedActivity.this, GoogleMapsActivity.class)));
+        back.setOnClickListener(v -> this.finish());
 
         String path = "@drawable/" + waypoint.getImages().get(0);
         int res = getResources().getIdentifier(path, null, getPackageName());
