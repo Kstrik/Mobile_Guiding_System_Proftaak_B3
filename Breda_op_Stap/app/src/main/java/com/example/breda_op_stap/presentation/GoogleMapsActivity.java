@@ -157,21 +157,6 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
             Waypoint closestWaypoint = null;
             double closestDistance = 0;
 
-//            int markerIndex = 0;
-//            for(Waypoint waypoint : this.waypointMarkers.values())
-//            {
-//                double distance = getDistance(new LatLng(location.getLatitude(), location.getLongitude()), waypoint.getLocation());
-//                if(distance < 100 && (closestWaypoint == null || distance < closestDistance))
-//                {
-//                    closestWaypoint = waypoint;
-//                    closestDistance = distance;
-//                    waypoint.setIsVisited(true);
-//                    Marker marker = (Marker)this.waypointMarkers.keySet().toArray()[markerIndex];
-//                    marker.setIcon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE));
-//                    markerIndex++;
-//                }
-//            }
-
             for(Marker marker : this.waypointMarkers.keySet())
             {
                 Waypoint waypoint = this.waypointMarkers.get(marker);
