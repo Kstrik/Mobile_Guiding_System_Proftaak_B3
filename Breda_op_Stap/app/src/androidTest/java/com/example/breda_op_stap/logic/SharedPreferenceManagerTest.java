@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
-import com.example.breda_op_stap.MainActivity;
 import com.example.breda_op_stap.data.Waypoint;
 import com.google.android.gms.maps.model.LatLng;
 

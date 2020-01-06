@@ -7,7 +7,8 @@
       "lat" : 51.588859,
       "lng" : 4.777239
     },
-    "description" : "string",
+    "descriptionUS" : "string",
+    "descriptionNL" : "string",
     "images" :
     [
       "picture1", "picture2"
@@ -24,7 +25,8 @@
       "lat" : 51.593287,
       "lng" : 4.779457
     },
-    "description" : "liefdeszuster is een standbeeld gebouwd voor het opvang van vrouwen",
+    "descriptionUS" : "string",
+    "descriptionNL" : "liefdeszuster is een standbeeld gebouwd voor het opvang van vrouwen",
     "images" :
     [
       "picture3"
@@ -41,9 +43,10 @@
       "lat" : 51.592574,
       "lng" : 4.779793
     },
-    "description" : "Het monument werd geplaatst ter herinnering aan de 500-jarige band (1904) tussen Breda en het huis Oranje-Nassau. In 1404 werd Engelbrecht I van Nassau-Dillenburg gehuldigd als heer van Breda.
-                     Het beeld werd gemaakt in de vorm van een burcht en bekroond met een leeuw in een Hollandse tuin. Naast de namen en familiewapens van Engelbrecht en zijn vrouw Johanna van Polanen, staan op het monument de wapens van de gemeenten in de Baronie van Breda.
-                     Het monument werd 3 juli 1905 onthuld door koningin Wilhelmina.",
+     "descriptionUS" : "string",
+     "descriptionNL" : "Het monument werd geplaatst ter herinnering aan de 500-jarige band (1904) tussen Breda en het huis Oranje-Nassau. In 1404 werd Engelbrecht I van Nassau-Dillenburg gehuldigd als heer van Breda.
+                                             Het beeld werd gemaakt in de vorm van een burcht en bekroond met een leeuw in een Hollandse tuin. Naast de namen en familiewapens van Engelbrecht en zijn vrouw Johanna van Polanen, staan op het monument de wapens van de gemeenten in de Baronie van Breda.
+                                             Het monument werd 3 juli 1905 onthuld door koningin Wilhelmina.",
     "images" :
     [
       "picture4"
@@ -60,7 +63,8 @@
       "lat" : 51.593139,
       "lng" : 4.778167
     },
-    "description" : "string",
+    "descriptionUS" : "string",
+    "descriptionNL" : "string",
     "images" :
     [
       "picture5"
@@ -77,7 +81,8 @@
       "lat" : 51.591613,
       "lng" : 4.775357
     },
-    "description" : "string",
+    "descriptionUS" : "string",
+    "descriptionNL" : "string",
     "images" :
     [
       "picture9"

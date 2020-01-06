@@ -7,6 +7,12 @@
     <string name="overviewTitle">Overzicht</string>
     <string name="favoritesTitle">Favorieten</string>
 
+    <string name="nameHeader">Naam:</string>
+    <string name="latitudeHeader">Breedtegraad:</string>
+    <string name="longitudeHeader">Lengtegraad:</string>
+
+    <string name="instructionsHeader">Instructies</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="favorites">Favorieten</string>
     <string name="premissions_location_denied">Toegang geweigerd, zet uw locatie gegevens aan om de volledige app te gebruiken!</string>

@@ -1,5 +1,6 @@
 package com.example.breda_op_stap.logic;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,12 +24,14 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
 {
     private ArrayList<Waypoint> waypoints;
     private boolean favorite;
+    private Context context;
 
-    public POIAdapter(ArrayList<Waypoint> waypoints, boolean favorite)
+    public POIAdapter(ArrayList<Waypoint> waypoints, boolean favorite, Context context)
     {
 
         this.waypoints = waypoints;
         this.favorite = favorite;
+        this.context = context;
     }
 
     @NonNull
@@ -47,6 +50,10 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
         holder.latitude.setText(String.valueOf(waypoint.getLocation().latitude));
         holder.longitude.setText(String.valueOf(waypoint.getLocation().longitude));
         holder.name.setText(waypoint.getName());
+
+        holder.latitudeHeader.setText(this.context.getApplicationContext().getString(R.string.latitudeHeader));
+        holder.longitudeHeader.setText(this.context.getApplicationContext().getString(R.string.longitudeHeader));
+        holder.nameHeader.setText(this.context.getApplicationContext().getString(R.string.nameHeader));
 
         String path = "@drawable/" + waypoint.getImages().get(0);
         int res = holder.itemView.getResources().getIdentifier(path, null, holder.itemView.getContext().getPackageName());
@@ -75,6 +82,10 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
         ImageView fav;
         ImageView hidden;
 
+        TextView latitudeHeader;
+        TextView longitudeHeader;
+        TextView nameHeader;
+
         public POIViewHolder(@NonNull View itemView)
         {
             super(itemView);
@@ -85,6 +96,10 @@ public class POIAdapter extends RecyclerView.Adapter<POIAdapter.POIViewHolder>
             this.image = itemView.findViewById(R.id.poi_item_image);
             this.fav = itemView.findViewById(R.id.poi_item_fav);
             this.hidden = itemView.findViewById(R.id.poi_item_hidden);
+
+            this.latitudeHeader = itemView.findViewById(R.id.poi_item_lat_text);
+            this.longitudeHeader = itemView.findViewById(R.id.poi_item_long_text);
+            this.nameHeader = itemView.findViewById(R.id.poi_item_name_text);
 
             this.fav.setOnClickListener(this::onClickFav);
             this.hidden.setOnClickListener(this::onClickHidden);

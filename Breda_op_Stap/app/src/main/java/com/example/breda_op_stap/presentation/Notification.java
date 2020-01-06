@@ -17,7 +17,8 @@ import com.example.breda_op_stap.R;
 
 public class Notification
 {
-    private String CHANNEL_ID = "Notification Channel";
+    private String CHANNEL_WAYPOINT_ENCOUNTERED_ID = "Encountered Channel";
+    private String CHANNEL_OFF_ROUTE_ID = "Off route Channel";
     private NotificationManager notificationManager;
     private Context context;
 
@@ -31,17 +32,19 @@ public class Notification
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
         {
             int importance = NotificationManager.IMPORTANCE_DEFAULT;
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "channel", importance);
+            NotificationChannel channel1 = new NotificationChannel(CHANNEL_WAYPOINT_ENCOUNTERED_ID, "channel1", importance);
+            NotificationChannel channel2 = new NotificationChannel(CHANNEL_OFF_ROUTE_ID, "channel2", importance);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
             //NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+            notificationManager.createNotificationChannel(channel1);
+            notificationManager.createNotificationChannel(channel2);
         }
     }
 
     public void notifyWaypointEncounter(String titel, String description)
     {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_WAYPOINT_ENCOUNTERED_ID);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(titel)
                 .setContentText(description)
@@ -59,7 +62,7 @@ public class Notification
 
     public void notifyOffRoute()
     {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_ID);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this.context, CHANNEL_OFF_ROUTE_ID);
         builder.setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle("Off route")
                 .setContentText(this.context.getResources().getString(R.string.notification_off_route))

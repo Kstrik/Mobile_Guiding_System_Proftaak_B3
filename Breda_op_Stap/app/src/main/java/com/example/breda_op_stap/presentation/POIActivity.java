@@ -24,7 +24,7 @@ public class POIActivity extends AppCompatActivity
         setContentView(R.layout.activity_poi);
 
         RouteParser routeParser = new RouteParser(getApplicationContext());
-        ArrayList<Waypoint> unfilteredWaypoints = routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"));
+        ArrayList<Waypoint> unfilteredWaypoints = routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"), getApplicationContext().getResources().getConfiguration().locale.toLanguageTag());
         ArrayList<Waypoint> waypoints = new ArrayList<>();
 
         boolean fav = getIntent().getBooleanExtra("favorites", false);
@@ -34,10 +34,12 @@ public class POIActivity extends AppCompatActivity
                 waypoints.add(waypoint);
 
         if (fav)
-            ((TextView)findViewById(R.id.poi_title)).setText(getResources().getString(R.string.favoritesTitle));
+            ((TextView)findViewById(R.id.poi_title)).setText(getApplicationContext().getString(R.string.favoritesTitle));
+        else
+            ((TextView)findViewById(R.id.poi_title)).setText(getApplicationContext().getString(R.string.overviewTitle));
 
         RecyclerView recyclerView = findViewById(R.id.poi_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new POIAdapter(waypoints, fav));
+        recyclerView.setAdapter(new POIAdapter(waypoints, fav, this));
     }
 }

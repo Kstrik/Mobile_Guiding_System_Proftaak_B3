@@ -141,6 +141,6 @@ public class DirectionsAPIManager implements Response.Listener, Response.ErrorLi
     @Override
     public void onErrorResponse(VolleyError error)
     {
-        String test = "";
+
     }
 }

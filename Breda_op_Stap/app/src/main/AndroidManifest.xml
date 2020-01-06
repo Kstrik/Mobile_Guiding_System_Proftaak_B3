@@ -47,7 +47,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".presentation.POIActivity"></activity>
-        <activity android:name=".MainActivity"></activity>
         <activity android:name=".presentation.HelpActivity"></activity>
     </application>
 

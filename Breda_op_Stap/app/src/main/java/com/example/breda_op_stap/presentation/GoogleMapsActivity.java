@@ -88,6 +88,12 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         mapFragment.getMapAsync(this);
 
         checkLocationPremissions();
+        applyLanguage();
+    }
+
+    private void applyLanguage()
+    {
+        this.txb_Search.setHint(getApplicationContext().getString(R.string.marker_search_hint));
     }
 
     private boolean hasLocationAccess()
@@ -220,7 +226,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         });
 
         RouteParser routeParser = new RouteParser(this);
-        displayRoute(routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute")));
+        displayRoute(routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"), getApplicationContext().getResources().getConfiguration().locale.toLanguageTag()));
     }
 
     public void displayRoute(ArrayList<Waypoint> waypoints)

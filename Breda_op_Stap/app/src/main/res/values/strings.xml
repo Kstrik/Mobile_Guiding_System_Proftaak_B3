@@ -7,6 +7,12 @@
     <string name="overviewTitle">Overview</string>
     <string name="favoritesTitle">Favorites</string>
 
+    <string name="nameHeader">Name:</string>
+    <string name="latitudeHeader">Latitude:</string>
+    <string name="longitudeHeader">Longitude:</string>
+
+    <string name="instructionsHeader">Instructions</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="favorites">Favorites</string>
     <string name="premissions_location_denied">Permission denied, enable location to use the full app!</string>
