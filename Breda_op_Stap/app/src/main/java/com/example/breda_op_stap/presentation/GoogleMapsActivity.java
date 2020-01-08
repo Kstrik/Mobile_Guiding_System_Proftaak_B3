@@ -226,7 +226,7 @@ public class GoogleMapsActivity extends FragmentActivity implements OnMapReadyCa
         });
 
         RouteParser routeParser = new RouteParser(this);
-        displayRoute(routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRoute"), getApplicationContext().getResources().getConfiguration().locale.toLanguageTag()));
+        displayRoute(routeParser.parseFile(routeParser.loadJSONFromAsset("JsonRouteOld"), getApplicationContext().getResources().getConfiguration().locale.toLanguageTag()));
     }
 
     public void displayRoute(ArrayList<Waypoint> waypoints)
