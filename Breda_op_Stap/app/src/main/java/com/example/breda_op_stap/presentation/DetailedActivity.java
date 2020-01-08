@@ -39,8 +39,11 @@ public class DetailedActivity extends AppCompatActivity
 
         back.setOnClickListener(v -> this.finish());
 
-        String path = "@drawable/" + waypoint.getImages().get(0);
-        int res = getResources().getIdentifier(path, null, getPackageName());
-        image.setImageResource(res);
+        if(waypoint.getImages().size() != 0)
+        {
+            String path = "@drawable/" + waypoint.getImages().get(0);
+            int res = getResources().getIdentifier(path, null, getPackageName());
+            image.setImageResource(res);
+        }
     }
 }

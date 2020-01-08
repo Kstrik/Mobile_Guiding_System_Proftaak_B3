@@ -49,6 +49,12 @@ public class SharedPreferenceManager
         return sharedPreferences.getBoolean(waypoint.getName()+"Favourite", false);
     }
 
+    public boolean getIsVisited(Waypoint waypoint)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
+        return sharedPreferences.getBoolean(waypoint.getName()+"Visited", false);
+    }
+
     /**
     * slaat op of een waypoint verborgen is.
     * waypoint wordt opgeslagen met (naam)Hidden als key en de gegeven boolean als waarde.
@@ -59,7 +65,6 @@ public class SharedPreferenceManager
     {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
         editor.putBoolean(waypoint.getName() + "Hidden", value);
         editor.apply();
     }
@@ -74,8 +79,16 @@ public class SharedPreferenceManager
     {
         SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-
         editor.putBoolean(waypoint.getName() + "Favourite", value);
+        editor.apply();
+    }
+
+    public void setIsVisited(Waypoint waypoint, boolean value)
+    {
+        SharedPreferences sharedPreferences = context.getSharedPreferences(SHARED_PREFS, context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+
+        editor.putBoolean(waypoint.getName() + "Visited", value);
         editor.apply();
     }
 }
